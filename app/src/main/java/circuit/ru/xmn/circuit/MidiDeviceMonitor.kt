@@ -22,19 +22,19 @@ class MidiDeviceMonitor private constructor(private val mMidiManager: MidiManage
         override fun onDeviceAdded(device: MidiDeviceInfo) {
             // Call all of the locally registered callbacks.
             for ((callback, handler) in mCallbacks) {
-                handler?.post { callback.onDeviceAdded(device) } ?: callback.onDeviceAdded(device)
+                handler.post { callback.onDeviceAdded(device) }
             }
         }
 
         override fun onDeviceRemoved(device: MidiDeviceInfo) {
             for ((callback, handler) in mCallbacks) {
-                handler?.post { callback.onDeviceRemoved(device) } ?: callback.onDeviceRemoved(device)
+                handler.post { callback.onDeviceRemoved(device) }
             }
         }
 
         override fun onDeviceStatusChanged(status: MidiDeviceStatus) {
             for ((callback, handler) in mCallbacks) {
-                handler?.post { callback.onDeviceStatusChanged(status) } ?: callback.onDeviceStatusChanged(status)
+                handler.post { callback.onDeviceStatusChanged(status) }
             }
         }
     }

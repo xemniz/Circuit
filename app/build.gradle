@@ -23,13 +23,38 @@ android {
     }
 }
 
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
+
 dependencies {
+    ext.supportLib = "26.1.0"
+    ext.archComp = "1.0.0-alpha9"
+    ext.anko_version = "0.10.1"
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation "com.android.support:appcompat-v7:$supportLib"
+    implementation "com.android.support:recyclerview-v7:$supportLib"
+    implementation "com.android.support:cardview-v7:$supportLib"
+    implementation "com.android.support:design:$supportLib"
+    implementation "com.android.support:transition:$supportLib"
+
+    implementation "android.arch.lifecycle:runtime:$archComp"
+    implementation "android.arch.lifecycle:extensions:$archComp"
+    kapt "android.arch.lifecycle:compiler:$archComp"
+
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
+
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation ('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation 'com.sdsmdg.harjot:croller:1.0.7'
+    implementation project(':knoblibrary')
+
+    implementation 'com.github.BeppiMenozzi:BalloonPopup:0.2.8'
 }
