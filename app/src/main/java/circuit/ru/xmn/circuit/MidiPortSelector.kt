@@ -12,6 +12,9 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import circuit.ru.xmn.circuit.midiservice.MidiConstants
+import circuit.ru.xmn.circuit.midiservice.MidiDeviceMonitor
+import circuit.ru.xmn.circuit.midiservice.MidiPortWrapper
 import java.util.*
 
 abstract class MidiPortSelector

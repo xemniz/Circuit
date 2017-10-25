@@ -1,4 +1,4 @@
-package circuit.ru.xmn.circuit;
+package circuit.ru.xmn.circuit.midiservice;
 
 /**
  * MIDI related constants and static methods.
@@ -6,7 +6,7 @@ package circuit.ru.xmn.circuit;
  * available from the MIDI Manufacturers Association.
  */
 public class MidiConstants {
-    protected final static String TAG = "MidiTools";
+    public final static String TAG = "MidiTools";
     public static final byte STATUS_COMMAND_MASK = (byte) 0xF0;
     public static final byte STATUS_CHANNEL_MASK = (byte) 0x0F;
 

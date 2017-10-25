@@ -1,6 +1,6 @@
 package circuit.ru.xmn.circuit.model.midicontrol
 
-import circuit.ru.xmn.circuit.MidiConstants
+import circuit.ru.xmn.circuit.midiservice.MidiConstants
 
 enum class MidiControlType {
     CC {

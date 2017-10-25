@@ -1,4 +1,4 @@
-package circuit.ru.xmn.circuit
+package circuit.ru.xmn.circuit.midiservice
 
 import android.media.midi.MidiDeviceInfo
 import android.media.midi.MidiDeviceStatus

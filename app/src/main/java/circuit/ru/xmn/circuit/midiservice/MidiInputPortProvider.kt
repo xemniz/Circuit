@@ -1,20 +1,14 @@
-package circuit.ru.xmn.circuit
+package circuit.ru.xmn.circuit.midiservice
 
-import android.app.Activity
 import android.media.midi.*
 import android.util.Log
-import circuit.ru.xmn.circuit.midiservice.MidiConstants
-import circuit.ru.xmn.circuit.midiservice.MidiPortWrapper
 import java.io.IOException
 
-class MidiInputPortSelector
-/**
- * @param midiManager
- * @param activity
- * @param spinnerId ID from the layout resource
- */
-(midiManager: MidiManager, activity: Activity, spinnerId: Int)
-    : MidiPortSelector(midiManager, activity, spinnerId, MidiDeviceInfo.PortInfo.TYPE_INPUT) {
+class MidiInputPortProvider(midiManager: MidiManager)
+    : MidiPortProvider(midiManager, MidiDeviceInfo.PortInfo.TYPE_INPUT) {
+
+    val receiver: MidiReceiver?
+        get() = mInputPort
 
     private var mInputPort: MidiInputPort? = null
     private var mOpenDevice: MidiDevice? = null
@@ -23,7 +17,7 @@ class MidiInputPortSelector
         close()
         val info = wrapper?.deviceInfo
         if (info != null) {
-            mMidiManager.openDevice(info, { device ->
+            midiManager.openDevice(info, { device ->
                 if (device == null) {
                     Log.e(MidiConstants.TAG, "could not open " + info)
                 } else {
@@ -38,9 +32,6 @@ class MidiInputPortSelector
             // Don't run the callback on the UI thread because openInputPort might take a while.
         }
     }
-
-    val receiver: MidiReceiver?
-        get() = mInputPort
 
     override fun onClose() {
         try {

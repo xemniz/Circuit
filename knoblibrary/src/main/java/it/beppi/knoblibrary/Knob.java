@@ -761,7 +761,7 @@ public class Knob extends View {
 
     private OnStateChanged listener;
     public interface OnStateChanged{
-        public void onState(int state);
+        void onState(int state);
     }
 
     public void setOnStateChanged(OnStateChanged onStateChanged) {
