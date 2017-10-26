@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Circuit</string>
+    <string name="title_activity_midi_settings">MidiSettingsActivity</string>
 </resources>

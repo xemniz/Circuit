@@ -1,4 +1,4 @@
-package circuit.ru.xmn.circuit
+package circuit.ru.xmn.circuit.screens.main
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel

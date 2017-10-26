@@ -30,7 +30,6 @@ allprojects {
 
 dependencies {
     ext.supportLib = "26.1.0"
-    ext.archComp = "1.0.0-alpha9"
     ext.anko_version = "0.10.1"
     ext.dagger_version = "2.12"
 
@@ -41,20 +40,21 @@ dependencies {
     implementation "com.android.support:design:$supportLib"
     implementation "com.android.support:transition:$supportLib"
     implementation "com.android.support:gridlayout-v7:$supportLib"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    implementation "android.arch.lifecycle:runtime:$archComp"
-    implementation "android.arch.lifecycle:extensions:$archComp"
-    kapt "android.arch.lifecycle:compiler:$archComp"
+    //AAC
+    implementation "android.arch.lifecycle:runtime:1.0.3"
+    implementation "android.arch.lifecycle:extensions:1.0.0-rc1"
+    kapt "android.arch.lifecycle:compiler:1.0.0-rc1"
 
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation ('com.android.support.test.espresso:espresso-core:3.0.1', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.sdsmdg.harjot:croller:1.0.7'
+
     implementation project(':knoblibrary')
 
     //dagger

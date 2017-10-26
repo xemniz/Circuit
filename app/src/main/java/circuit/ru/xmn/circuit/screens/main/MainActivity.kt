@@ -1,4 +1,4 @@
-package circuit.ru.xmn.circuit
+package circuit.ru.xmn.circuit.screens.main
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -9,8 +9,9 @@ import android.media.midi.MidiReceiver
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.SeekBar
 import android.widget.Toast
+import circuit.ru.xmn.circuit.MidiInputPortSelector
+import circuit.ru.xmn.circuit.R
 import circuit.ru.xmn.circuit.model.grid.MidiScreenGridAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.xmn.common.extensions.log
