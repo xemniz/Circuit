@@ -3,17 +3,23 @@ package circuit.ru.xmn.circuit.screens.main
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.media.midi.MidiReceiver
+import circuit.ru.xmn.circuit.application.App
+import circuit.ru.xmn.circuit.midiservice.MidiReceiverPortProvider
 import circuit.ru.xmn.circuit.model.grid.GridPositionInfo
 import circuit.ru.xmn.circuit.model.grid.MidiGridController
 import circuit.ru.xmn.circuit.model.midicontrol.MidiHandler
 import ru.xmn.common.extensions.log
 import java.io.IOException
+import javax.inject.Inject
 
 class CircuitViewModel : ViewModel() {
+    @Inject
+    lateinit var outputPortProvider: MidiReceiverPortProvider
     val controllers: MutableLiveData<List<MidiGridController>> = MutableLiveData()
     val synthDataProvider: SynthDataProvider = SynthDataProvider()
 
     init {
+        App.component.inject(this)
         val synthPreset = synthDataProvider.getSynthPreset(SynthDataProvider.NOVATION_CIRCUIT)
         controllers.value = synthPreset.controllers
     }
@@ -29,7 +35,7 @@ class CircuitViewModel : ViewModel() {
     }
 
     private fun getReceiver(): MidiReceiver? {
-        return null
+        return outputPortProvider.receiver
     }
 }
 
@@ -42,40 +48,40 @@ class SynthDataProvider {
 }
 
 class SynthGridPreset {
-    val controllers: List<MidiGridController> = provideMacroFor1Synth(1,0) + provideMacroFor1Synth(2,2)
+    val controllers: List<MidiGridController> = provideMacroFor1Synth(1, 0) + provideMacroFor1Synth(2, 2)
 
     private fun provideMacroFor1Synth(channel: Int, rowOffset: Int): List<MidiGridController> {
         return listOf(
                 MidiGridController(
-                        MidiHandler("Macro knob 1", channel-1, 80),
+                        MidiHandler("Macro knob 1", channel - 1, 80),
                         GridPositionInfo(1 + rowOffset, 1, 1)
                 ),
                 MidiGridController(
-                        MidiHandler("Macro knob 2", channel-1, 81),
+                        MidiHandler("Macro knob 2", channel - 1, 81),
                         GridPositionInfo(1 + rowOffset, 2, 1)
                 ),
                 MidiGridController(
-                        MidiHandler("Macro knob 3", channel-1, 82),
+                        MidiHandler("Macro knob 3", channel - 1, 82),
                         GridPositionInfo(1 + rowOffset, 3, 1)
                 ),
                 MidiGridController(
-                        MidiHandler("Macro knob 4", channel-1, 83),
+                        MidiHandler("Macro knob 4", channel - 1, 83),
                         GridPositionInfo(1 + rowOffset, 4, 1)
                 ),
                 MidiGridController(
-                        MidiHandler("Macro knob 5", channel-1, 84),
+                        MidiHandler("Macro knob 5", channel - 1, 84),
                         GridPositionInfo(2 + rowOffset, 1, 1)
                 ),
                 MidiGridController(
-                        MidiHandler("Macro knob 6", channel-1, 85),
+                        MidiHandler("Macro knob 6", channel - 1, 85),
                         GridPositionInfo(2 + rowOffset, 2, 1)
                 ),
                 MidiGridController(
-                        MidiHandler("Macro knob 7", channel-1, 86),
+                        MidiHandler("Macro knob 7", channel - 1, 86),
                         GridPositionInfo(2 + rowOffset, 3, 1)
                 ),
                 MidiGridController(
-                        MidiHandler("Macro knob 8", channel-1, 87),
+                        MidiHandler("Macro knob 8", channel - 1, 87),
                         GridPositionInfo(2 + rowOffset, 4, 1)
                 )
         )

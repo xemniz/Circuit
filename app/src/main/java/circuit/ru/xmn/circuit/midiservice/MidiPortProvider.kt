@@ -33,6 +33,8 @@ abstract class MidiPortProvider(val midiManager: MidiManager, val type: Int) : M
 
     fun selectPort(i: Int) {
         currentWrapper = midiPortList[i]
+        currentWrapper?.selected = true
+        midiPortList.filter { it != currentWrapper }.forEach { it.selected = false }
         onPortSelected(currentWrapper)
     }
 

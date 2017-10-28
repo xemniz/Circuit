@@ -4,7 +4,7 @@ import android.media.midi.*
 import android.util.Log
 import java.io.IOException
 
-class MidiInputPortProvider(midiManager: MidiManager)
+class MidiReceiverPortProvider(midiManager: MidiManager)
     : MidiPortProvider(midiManager, MidiDeviceInfo.PortInfo.TYPE_INPUT) {
 
     val receiver: MidiReceiver?
@@ -29,7 +29,6 @@ class MidiInputPortProvider(midiManager: MidiManager)
                     }
                 }
             }, null)
-            // Don't run the callback on the UI thread because openInputPort might take a while.
         }
     }
 

@@ -1,12 +1,8 @@
 package circuit.ru.xmn.circuit.application
 
-import android.content.Context
-import android.content.pm.PackageManager
-import android.media.midi.MidiManager
-import circuit.ru.xmn.circuit.midiservice.MidiInputPortProvider
+import circuit.ru.xmn.circuit.screens.main.CircuitViewModel
+import circuit.ru.xmn.circuit.screens.settings.MidiSettingsViewModel
 import dagger.Component
-import dagger.Module
-import dagger.Provides
 import javax.inject.Singleton
 
 @Singleton
@@ -15,23 +11,7 @@ import javax.inject.Singleton
         MidiServiceModule::class
 ))
 interface ApplicationComponent {
+    fun inject(midiSettingsViewModel: MidiSettingsViewModel)
+    fun inject(midiSettingsViewModel: CircuitViewModel)
 }
 
-@Module
-class MidiServiceModule {
-    fun provideInputMidiManager(context: Context): MidiManager? {
-        val mMidiManager: MidiManager?
-        if (context.packageManager.hasSystemFeature(PackageManager.FEATURE_MIDI)) {
-            mMidiManager = context.getSystemService(Context.MIDI_SERVICE) as MidiManager?
-            if (mMidiManager == null) {
-                return null
-            }
-            return mMidiManager
-        } else {
-            return null
-        }
-    }
-
-    @Provides
-    fun provideInputPortProvider(midiManager: MidiManager?): MidiInputPortProvider? = midiManager?.let { MidiInputPortProvider(midiManager) }
-}

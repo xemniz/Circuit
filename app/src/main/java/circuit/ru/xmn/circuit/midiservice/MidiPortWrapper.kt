@@ -10,6 +10,7 @@ class MidiPortWrapper
  * @param portIndex
  */
 (val deviceInfo: MidiDeviceInfo?, private val mType: Int, val portIndex: Int) {
+    var selected = false
     private var mString: String? = null
 
     private fun updateString() {
