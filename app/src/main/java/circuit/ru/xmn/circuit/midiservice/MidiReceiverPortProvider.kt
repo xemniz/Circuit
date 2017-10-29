@@ -2,6 +2,7 @@ package circuit.ru.xmn.circuit.midiservice
 
 import android.media.midi.*
 import android.util.Log
+import ru.xmn.common.extensions.log
 import java.io.IOException
 
 class MidiReceiverPortProvider(midiManager: MidiManager)
@@ -48,5 +49,13 @@ class MidiReceiverPortProvider(midiManager: MidiManager)
         }
 
         super.onClose()
+    }
+
+    fun midiSend(buffer: ByteArray, count: Int = 3, timestamp: Long = System.nanoTime()) {
+        try {
+            receiver?.send(buffer, 0, count, timestamp)
+        } catch (e: IOException) {
+            log("mKeyboardReceiverSelector.send() failed " + e)
+        }
     }
 }

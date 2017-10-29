@@ -1,4 +1,4 @@
-package circuit.ru.xmn.circuit.model.grid
+package circuit.ru.xmn.circuit.model.gridscreen
 
 import circuit.ru.xmn.circuit.model.midicontrol.MidiHandler
 

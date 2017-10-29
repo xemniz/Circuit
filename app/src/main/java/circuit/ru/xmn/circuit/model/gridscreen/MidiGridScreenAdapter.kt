@@ -1,16 +1,19 @@
-package circuit.ru.xmn.circuit.model.grid
+package circuit.ru.xmn.circuit.model.gridscreen
 
 import android.support.v7.widget.GridLayout
 import android.view.Gravity
-import android.view.ViewGroup
-import it.beppi.knoblibrary.Knob
+import circuit.ru.xmn.circuit.model.widgets.KnobFactory
 import ru.xmn.common.extensions.px
 
-class MidiScreenGridAdapter(val layout: GridLayout,
+class MidiGridScreenAdapter(val layout: GridLayout,
                             controllers: List<MidiGridController>,
                             val sendMessage: (ByteArray) -> Unit) {
-    val byteBuffer: ByteArray = ByteArray(3)
 
+    companion object {
+        const val COLUMNS = 4
+    }
+
+    val byteBuffer: ByteArray = ByteArray(3)
 
     init {
         layout.columnCount = COLUMNS
@@ -31,24 +34,5 @@ class MidiScreenGridAdapter(val layout: GridLayout,
 
         layout.addView(knob)
     }
-
-    companion object {
-        const val ROWS = 5
-        const val COLUMNS = 4
-    }
 }
 
-object KnobFactory {
-    fun create(layout: ViewGroup, listener: (Int) -> Unit) = Knob(layout.context).apply {
-        setOnStateChanged { listener(it) }
-        numberOfStates = 127
-        isFreeRotation = false
-        minAngle = -150f
-        maxAngle = 150f
-        swipeSensibilityPixels = 10
-        swipeDirection = Knob.SWIPEDIRECTION_HORIZONTALVERTICAL
-
-    }
-
-
-}
