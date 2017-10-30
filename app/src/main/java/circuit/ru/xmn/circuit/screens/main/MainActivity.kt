@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import circuit.ru.xmn.circuit.R
-import circuit.ru.xmn.circuit.model.gridscreen.MidiGridScreenAdapter
+import circuit.ru.xmn.circuit.model.layout.TwoPagersLayoutBuilder
 import circuit.ru.xmn.circuit.model.presets.MidiControllerPreset
 import circuit.ru.xmn.circuit.screens.settings.MidiSettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,8 +35,8 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun bindView(it: MidiControllerPreset) {
-
+    private fun bindView(controllerPreset: MidiControllerPreset) {
+        TwoPagersLayoutBuilder(controllerPreset) { circuitViewModel.midiSend(it) }.addInto(midiControllerContainer)
     }
 
 

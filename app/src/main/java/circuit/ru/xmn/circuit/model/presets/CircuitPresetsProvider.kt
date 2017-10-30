@@ -14,7 +14,7 @@ object CircuitPresetsProvider {
 
     fun fourRowsTwoColumnsScreen(controls: List<MidiHandler>, columnsCount: Int): MidiGridScreen {
         val midiGridControls = controls.mapIndexed { index, midiHandler ->
-            MidiGridController(midiHandler, GridPositionInfo((index % columnsCount) + 1, (index / columnsCount) + 1, 1))
+            MidiGridController(midiHandler, GridPositionInfo((index / columnsCount) + 1, (index % columnsCount) + 1, 1))
         }
         return MidiGridScreen(midiGridControls)
     }
