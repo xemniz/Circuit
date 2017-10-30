@@ -38,12 +38,12 @@ fun List<View>.visibleOnly(vararg view: View) {
     } }
 }
 
-val Int.px: Int
+val Int.dpToPx: Int
     get() {
         return (this * Resources.getSystem().displayMetrics.density).toInt()
     }
 
-val Int.dp: Int
+val Int.pxToDp: Int
     get() {
         return (this / Resources.getSystem().displayMetrics.density).toInt()
     }

@@ -1,13 +1,11 @@
 package circuit.ru.xmn.circuit.model.gridscreen
 
-import android.graphics.Color
 import android.support.v7.widget.GridLayout
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.TextView
 import circuit.ru.xmn.circuit.model.widgets.KnobFactory
-import ru.xmn.common.extensions.dp
-import ru.xmn.common.extensions.px
+import ru.xmn.common.extensions.dpToPx
 
 class MidiGridScreenAdapter(val controllers: List<MidiGridController>,
                             val sendMessage: (ByteArray) -> Unit) {
@@ -36,10 +34,9 @@ class MidiGridScreenAdapter(val controllers: List<MidiGridController>,
             orientation = LinearLayout.VERTICAL
             layoutParams = cellParams.apply {
                 setGravity(Gravity.FILL)
-                setPadding(4.px, 4.px, 4.px, 4.px)
+                setPadding(4.dpToPx, 4.dpToPx, 4.dpToPx, 4.dpToPx)
                 height = 0
                 width = 0
-                setBackgroundColor(Color.CYAN)
             }
             addView(
                     KnobFactory.create(layout, listener).apply {

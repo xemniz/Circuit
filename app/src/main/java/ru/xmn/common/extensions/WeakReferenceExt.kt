@@ -1,4 +1,4 @@
-package circuit.ru.xmn.common.extensions
+package ru.xmn.common.extensions
 
 import java.lang.ref.WeakReference
 import kotlin.properties.ReadWriteProperty
