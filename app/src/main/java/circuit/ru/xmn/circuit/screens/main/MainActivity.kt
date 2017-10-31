@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun bindView(controllerPreset: MidiControllerPreset) {
-        TwoPagersLayoutBuilder(controllerPreset) { circuitViewModel.midiSend(it) }.addInto(midiControllerContainer)
     }
 
 
