@@ -1,13 +1,40 @@
 package circuit.ru.xmn.circuit.model.midicontrol
 
+import java.util.*
+import kotlin.properties.Delegates
+
+
 class MidiHandler(
         val name: String,
         val channel: Int,
         val controlNumber: Int,
-        val defaultValue: Int = 0,
-        val controlType: MidiControlType = MidiControlType.CC) {
-    private val byteBuffer = ByteArray(3)
+        val controlType: MidiControlType = MidiControlType.CC,
+        val range: Range = Range(0, 127),
+        val offset: Int = 0,
+        val defaultValue: Int = 0
+) {
+    private val changeListeners = WeakHashMap<(Int) -> Unit, Any>()
+    private val nomatter = Any()
+    var value = Delegates.observable(defaultValue) { _, _, value -> changeListeners.keys.forEach { it(value) }}
+
+    fun addListener(listener:(Int) -> Unit ){
+        changeListeners.put(listener, nomatter)
+    }
 
     fun createMidiCommand(byteBuffer: ByteArray, value: Int) = controlType.createMidiCommand(byteBuffer, channel, controlNumber, value)
 
+}
+
+class Range(val lower: Int, val upper: Int)
+
+class NrpnValue(val msb: Int, val lsb: Int) {
+    fun value() = (msb shl 7) + lsb
+
+    companion object {
+        fun from(value: Int): NrpnValue {
+            val msb = (value / 128.0f).toInt()
+            val lsb = (value - msb * 128.0f).toInt()
+            return NrpnValue(msb, lsb)
+        }
+    }
 }

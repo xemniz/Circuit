@@ -5,8 +5,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import circuit.ru.xmn.circuit.R
-import circuit.ru.xmn.circuit.model.layout.TwoPagersLayoutBuilder
-import circuit.ru.xmn.circuit.model.presets.MidiControllerPreset
 import circuit.ru.xmn.circuit.screens.settings.MidiSettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
@@ -46,5 +44,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
-

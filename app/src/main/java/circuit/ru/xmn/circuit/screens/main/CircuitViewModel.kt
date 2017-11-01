@@ -4,8 +4,8 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import circuit.ru.xmn.circuit.application.App
 import circuit.ru.xmn.circuit.midiservice.MidiReceiverPortProvider
-import circuit.ru.xmn.circuit.model.presets.CircuitPresetsProvider
-import circuit.ru.xmn.circuit.model.presets.MidiControllerPreset
+import circuit.ru.xmn.circuit.model.presets.CircuitSynthProvider
+import circuit.ru.xmn.circuit.model.presets.CircuitPresetProvider
 import javax.inject.Inject
 
 class CircuitViewModel : ViewModel() {
@@ -15,7 +15,9 @@ class CircuitViewModel : ViewModel() {
 
     init {
         App.component.inject(this)
-        midiControllerPreset.value = CircuitPresetsProvider.provideTwoPanelsPreset()
+
+        val circuit = CircuitSynthProvider.provideCircuitSynth()
+        val circuitFirstPreset = CircuitPresetProvider.provideFirst()
     }
 
     fun midiSend(buffer: ByteArray) {
