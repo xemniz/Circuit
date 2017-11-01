@@ -7,6 +7,6 @@ import circuit.ru.xmn.circuit.model.widgets.MidiWidgetFactory
 
 class MidiControllerBuilder(val controller: MidiHandler, val widgetFactory: MidiWidgetFactory) : ViewBuilder {
     override fun build(context: Context): View {
-        return widgetFactory.create(context, controller.name, )
+        return widgetFactory.create(context, controller)
     }
 }

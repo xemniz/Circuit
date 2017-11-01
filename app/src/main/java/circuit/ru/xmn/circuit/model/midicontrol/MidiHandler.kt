@@ -13,15 +13,25 @@ class MidiHandler(
         val offset: Int = 0,
         val defaultValue: Int = 0
 ) {
+    var byteBuffer: ByteArray? = null
+    var sendMessage: ((ByteArray) -> Unit)? = null
+
     private val changeListeners = WeakHashMap<(Int) -> Unit, Any>()
     private val nomatter = Any()
-    var value = Delegates.observable(defaultValue) { _, _, value -> changeListeners.keys.forEach { it(value) }}
+    var value by Delegates.observable(defaultValue) { _, _, value ->
+        changeListeners.keys.forEach { it(value) }
+        sendMessage?.let { send ->
+            byteBuffer?.let { buf ->
+                send(createMidiCommand(buf, value))
+            }
+        }
+    }
 
-    fun addListener(listener:(Int) -> Unit ){
+    fun addListener(listener: (Int) -> Unit) {
         changeListeners.put(listener, nomatter)
     }
 
-    fun createMidiCommand(byteBuffer: ByteArray, value: Int) = controlType.createMidiCommand(byteBuffer, channel, controlNumber, value)
+    fun createMidiCommand(byteBuffer: ByteArray, value: Int) = controlType.createMidiCommand(byteBuffer, channel - 1, controlNumber, value)
 
 }
 

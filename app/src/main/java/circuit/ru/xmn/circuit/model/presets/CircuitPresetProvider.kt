@@ -5,40 +5,33 @@ import circuit.ru.xmn.circuit.model.gridscreen.GridViewGroupBuilder
 import circuit.ru.xmn.circuit.model.gridscreen.MidiGridItem
 import circuit.ru.xmn.circuit.model.layoutbuilder.MidiControllerBuilder
 import circuit.ru.xmn.circuit.model.layoutbuilder.ViewBuilder
-import circuit.ru.xmn.circuit.model.midicontrol.MidiHandler
 import circuit.ru.xmn.circuit.model.widgets.KnobFactory
 
 object CircuitPresetProvider {
-    fun provideFirst() = MidiControllerPreset(
-            GridViewGroupBuilder(
-                    listOf(
-                            MidiGridItem(
-                                    GridPositionInfo(1, 1),
-                                    MidiControllerBuilder(
-                                            MidiHandler(), KnobFactory
-                                    )
-                            ),
-                            MidiGridItem(
-                                    GridPositionInfo(1, 2),
-                                    MidiControllerBuilder(
-                                            MidiHandler(), KnobFactory
-                                    )
-                            ),
-                            MidiGridItem(
-                                    GridPositionInfo(2, 1),
-                                    MidiControllerBuilder(
-                                            MidiHandler(), KnobFactory
-                                    )
-                            ),
-                            MidiGridItem(
-                                    GridPositionInfo(2, 2),
-                                    MidiControllerBuilder(
-                                            MidiHandler(), KnobFactory
-                                    )
-                            )
-                    )
-            )
-    )
-}
+    fun provide(circuitSynth: SynthMidiController): ViewBuilder {
+        return autoFilledGrid(
+                listOf(
+                        MidiControllerBuilder(circuitSynth.control("drum 3 patch select"), KnobFactory),
+                        MidiControllerBuilder(circuitSynth.control("reverb drum 3 send level"), KnobFactory),
+                        MidiControllerBuilder(circuitSynth.control("delay drum 3 send level"), KnobFactory),
+                        MidiControllerBuilder(circuitSynth.control("drum 3 pitch"), KnobFactory),
+                        MidiControllerBuilder(circuitSynth.control("drum 3 decay"), KnobFactory),
+                        MidiControllerBuilder(circuitSynth.control("drum 3 distortion"), KnobFactory),
+                        MidiControllerBuilder(circuitSynth.control("drum 3 EQ"), KnobFactory),
+                        MidiControllerBuilder(circuitSynth.control("drum 3 pan"), KnobFactory)
+                ), 2
+        )
+    }
 
-class MidiControllerPreset(val builder: ViewBuilder)
+    fun autoFilledGrid(controls: List<MidiControllerBuilder>, columnsCount: Int = 4): GridViewGroupBuilder {
+        val midiGridControls = controls.mapIndexed { index, itemBuilder ->
+            MidiGridItem(
+                    GridPositionInfo((index / columnsCount) + 1, (index % columnsCount) + 1, 1),
+                    itemBuilder
+            )
+        }
+        return GridViewGroupBuilder(midiGridControls)
+    }
+
+
+}

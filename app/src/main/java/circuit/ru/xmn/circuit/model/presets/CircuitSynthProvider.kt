@@ -7,86 +7,92 @@ import circuit.ru.xmn.circuit.model.midicontrol.Range
 
 object CircuitSynthProvider {
 
-    fun provideCircuitSynth(): SynthMidiController = SynthMidiController(
-            synth(1)
-                    + synth(2)
-                    + listOf(
-                    //drum control
-                    MidiHandler("drum 1 patch select", 10, 8, range = Range(0, 63)),
-                    MidiHandler("drum 1 level", 10, 12),
-                    MidiHandler("drum 1 pitch", 10, 14),
-                    MidiHandler("drum 1 decay", 10, 15),
-                    MidiHandler("drum 1 distortion", 10, 16),
-                    MidiHandler("drum 1 EQ", 10, 17),
-                    MidiHandler("drum 1 pan", 10, 77),
-                    MidiHandler("drum 2 patch select", 10, 18, range = Range(0, 63)),
-                    MidiHandler("drum 2 level", 10, 23),
-                    MidiHandler("drum 2 pitch", 10, 34),
-                    MidiHandler("drum 2 decay", 10, 40),
-                    MidiHandler("drum 2 distortion", 10, 42),
-                    MidiHandler("drum 2 EQ", 10, 43),
-                    MidiHandler("drum 2 pan", 10, 78),
-                    MidiHandler("drum 3 patch select", 10, 44, range = Range(0, 63)),
-                    MidiHandler("drum 3 level", 10, 45),
-                    MidiHandler("drum 3 pitch", 10, 46),
-                    MidiHandler("drum 3 decay", 10, 47),
-                    MidiHandler("drum 3 distortion", 10, 48),
-                    MidiHandler("drum 3 EQ", 10, 49),
-                    MidiHandler("drum 3 pan", 10, 79),
-                    MidiHandler("drum 4 patch select", 10, 50, range = Range(0, 63)),
-                    MidiHandler("drum 4 level", 10, 53),
-                    MidiHandler("drum 4 pitch", 10, 55),
-                    MidiHandler("drum 4 decay", 10, 57),
-                    MidiHandler("drum 4 distortion", 10, 61),
-                    MidiHandler("drum 4 EQ", 10, 76),
-                    MidiHandler("drum 4 pan", 10, 80),
+    fun provideCircuitSynth(sendMessage: (ByteArray) -> Unit): SynthMidiController {
+        return SynthMidiController(
+                provideControls(), sendMessage)
+    }
 
-                    //session control
-                    //Reverb
-                    MidiHandler("synth 1 send level", 16, 88),
-                    MidiHandler("synth 2 send level", 16, 89),
-                    MidiHandler("drum 1 send level", 16, 90),
-                    MidiHandler("drum 2 send level", 16, 106),
-                    MidiHandler("drum 3 send level", 16, 109),
-                    MidiHandler("drum 4 send level", 16, 110),
-                    MidiHandler("type", 16, NrpnValue(1, 18).value(), range = Range(0, 5), controlType = MidiControlType.NRPN),
-                    MidiHandler("decay", 16, NrpnValue(1, 19).value(), controlType = MidiControlType.NRPN),
-                    MidiHandler("damping", 16, NrpnValue(1, 20).value(), controlType = MidiControlType.NRPN),
-                    //Delay
-                    MidiHandler("synth 1 send level", 16, 111),
-                    MidiHandler("synth 2 send level", 16, 112),
-                    MidiHandler("drum 1 send level", 16, 113),
-                    MidiHandler("drum 2 send level", 16, 114),
-                    MidiHandler("drum 3 send level", 16, 115),
-                    MidiHandler("drum 4 send level", 16, 116),
-                    MidiHandler("time", 16, NrpnValue(1, 6).value(), controlType = MidiControlType.NRPN),
-                    MidiHandler("time sync", 16, NrpnValue(1, 7).value(), range = Range(0, 35), controlType = MidiControlType.NRPN),
-                    MidiHandler("feedback", 16, NrpnValue(1, 8).value(), controlType = MidiControlType.NRPN),
-                    MidiHandler("width", 16, NrpnValue(1, 9).value(), controlType = MidiControlType.NRPN),
-                    MidiHandler("left-right ratio", 16, NrpnValue(1, 10).value(), range = Range(0, 12), controlType = MidiControlType.NRPN),
-                    MidiHandler("slew rate", 16, NrpnValue(1, 11).value(), controlType = MidiControlType.NRPN),
-                    //Master Filter
-                    MidiHandler("frequency", 16, 74),
-                    MidiHandler("resonance", 16, 71),
-                    //Sidechain
-                    MidiHandler("synth 1 source", 16, NrpnValue(2, 55).value(), range = Range(0, 4), controlType = MidiControlType.NRPN),
-                    MidiHandler("synth 1 attack", 16, NrpnValue(2, 56).value(), controlType = MidiControlType.NRPN),
-                    MidiHandler("synth 1 hold", 16, NrpnValue(2, 57).value(), controlType = MidiControlType.NRPN),
-                    MidiHandler("synth 1 decay", 16, NrpnValue(2, 58).value(), controlType = MidiControlType.NRPN),
-                    MidiHandler("synth 1 depth", 16, NrpnValue(2, 59).value(), controlType = MidiControlType.NRPN),
-                    MidiHandler("synth 2 source", 16, NrpnValue(2, 65).value(), range = Range(0, 4), controlType = MidiControlType.NRPN),
-                    MidiHandler("synth 2 attack", 16, NrpnValue(2, 66).value(), controlType = MidiControlType.NRPN),
-                    MidiHandler("synth 2 hold", 16, NrpnValue(2, 67).value(), controlType = MidiControlType.NRPN),
-                    MidiHandler("synth 2 decay", 16, NrpnValue(2, 68).value(), controlType = MidiControlType.NRPN),
-                    MidiHandler("synth 2 depth", 16, NrpnValue(1, 69).value(), controlType = MidiControlType.NRPN),
-                    //Mixer
-                    MidiHandler("synth 1 level", 16, 12),
-                    MidiHandler("synth 2 level", 16, 14),
-                    MidiHandler("synth 1 pan", 16, 117),
-                    MidiHandler("synth 2 pan", 16, 118),
-                    //Additional Controls
-                    MidiHandler("FX Bypass", 16, NrpnValue(1, 21).value(), range = Range(0, 1), controlType = MidiControlType.NRPN)
-            ))
+    private fun provideControls(): List<MidiHandler> {
+        return (synth(1)
+                + synth(2)
+                + listOf(
+                //drum control
+                MidiHandler("drum 1 patch select", 10, 8, range = Range(0, 63)),
+                MidiHandler("drum 1 level", 10, 12),
+                MidiHandler("drum 1 pitch", 10, 14),
+                MidiHandler("drum 1 decay", 10, 15),
+                MidiHandler("drum 1 distortion", 10, 16),
+                MidiHandler("drum 1 EQ", 10, 17),
+                MidiHandler("drum 1 pan", 10, 77),
+                MidiHandler("drum 2 patch select", 10, 18, range = Range(0, 63)),
+                MidiHandler("drum 2 level", 10, 23),
+                MidiHandler("drum 2 pitch", 10, 34),
+                MidiHandler("drum 2 decay", 10, 40),
+                MidiHandler("drum 2 distortion", 10, 42),
+                MidiHandler("drum 2 EQ", 10, 43),
+                MidiHandler("drum 2 pan", 10, 78),
+                MidiHandler("drum 3 patch select", 10, 44, range = Range(0, 63)),
+                MidiHandler("drum 3 level", 10, 45),
+                MidiHandler("drum 3 pitch", 10, 46),
+                MidiHandler("drum 3 decay", 10, 47),
+                MidiHandler("drum 3 distortion", 10, 48),
+                MidiHandler("drum 3 EQ", 10, 49),
+                MidiHandler("drum 3 pan", 10, 79),
+                MidiHandler("drum 4 patch select", 10, 50, range = Range(0, 63)),
+                MidiHandler("drum 4 level", 10, 53),
+                MidiHandler("drum 4 pitch", 10, 55),
+                MidiHandler("drum 4 decay", 10, 57),
+                MidiHandler("drum 4 distortion", 10, 61),
+                MidiHandler("drum 4 EQ", 10, 76),
+                MidiHandler("drum 4 pan", 10, 80),
+
+                //session control
+                //Reverb
+                MidiHandler("reverb synth 1 send level", 16, 88),
+                MidiHandler("reverb synth 2 send level", 16, 89),
+                MidiHandler("reverb drum 1 send level", 16, 90),
+                MidiHandler("reverb drum 2 send level", 16, 106),
+                MidiHandler("reverb drum 3 send level", 16, 109),
+                MidiHandler("reverb drum 4 send level", 16, 110),
+                MidiHandler("type", 16, NrpnValue(1, 18).value(), range = Range(0, 5), controlType = MidiControlType.NRPN),
+                MidiHandler("decay", 16, NrpnValue(1, 19).value(), controlType = MidiControlType.NRPN),
+                MidiHandler("damping", 16, NrpnValue(1, 20).value(), controlType = MidiControlType.NRPN),
+                //Delay
+                MidiHandler("delay synth 1 send level", 16, 111),
+                MidiHandler("delay synth 2 send level", 16, 112),
+                MidiHandler("delay drum 1 send level", 16, 113),
+                MidiHandler("delay drum 2 send level", 16, 114),
+                MidiHandler("delay drum 3 send level", 16, 115),
+                MidiHandler("delay drum 4 send level", 16, 116),
+                MidiHandler("time", 16, NrpnValue(1, 6).value(), controlType = MidiControlType.NRPN),
+                MidiHandler("time sync", 16, NrpnValue(1, 7).value(), range = Range(0, 35), controlType = MidiControlType.NRPN),
+                MidiHandler("feedback", 16, NrpnValue(1, 8).value(), controlType = MidiControlType.NRPN),
+                MidiHandler("width", 16, NrpnValue(1, 9).value(), controlType = MidiControlType.NRPN),
+                MidiHandler("left-right ratio", 16, NrpnValue(1, 10).value(), range = Range(0, 12), controlType = MidiControlType.NRPN),
+                MidiHandler("slew rate", 16, NrpnValue(1, 11).value(), controlType = MidiControlType.NRPN),
+                //Master Filter
+                MidiHandler("frequency", 16, 74),
+                MidiHandler("resonance", 16, 71),
+                //Sidechain
+                MidiHandler("synth 1 source", 16, NrpnValue(2, 55).value(), range = Range(0, 4), controlType = MidiControlType.NRPN),
+                MidiHandler("synth 1 attack", 16, NrpnValue(2, 56).value(), controlType = MidiControlType.NRPN),
+                MidiHandler("synth 1 hold", 16, NrpnValue(2, 57).value(), controlType = MidiControlType.NRPN),
+                MidiHandler("synth 1 decay", 16, NrpnValue(2, 58).value(), controlType = MidiControlType.NRPN),
+                MidiHandler("synth 1 depth", 16, NrpnValue(2, 59).value(), controlType = MidiControlType.NRPN),
+                MidiHandler("synth 2 source", 16, NrpnValue(2, 65).value(), range = Range(0, 4), controlType = MidiControlType.NRPN),
+                MidiHandler("synth 2 attack", 16, NrpnValue(2, 66).value(), controlType = MidiControlType.NRPN),
+                MidiHandler("synth 2 hold", 16, NrpnValue(2, 67).value(), controlType = MidiControlType.NRPN),
+                MidiHandler("synth 2 decay", 16, NrpnValue(2, 68).value(), controlType = MidiControlType.NRPN),
+                MidiHandler("synth 2 depth", 16, NrpnValue(1, 69).value(), controlType = MidiControlType.NRPN),
+                //Mixer
+                MidiHandler("synth 1 level", 16, 12),
+                MidiHandler("synth 2 level", 16, 14),
+                MidiHandler("synth 1 pan", 16, 117),
+                MidiHandler("synth 2 pan", 16, 118),
+                //Additional Controls
+                MidiHandler("FX Bypass", 16, NrpnValue(1, 21).value(), range = Range(0, 1), controlType = MidiControlType.NRPN)
+        ))
+    }
 
     private fun synth(number: Int): List<MidiHandler> {
         return listOf(
@@ -411,7 +417,18 @@ object CircuitSynthProvider {
     }
 }
 
-class SynthMidiController(val controls: List<MidiHandler>, val sendMessage: (ByteArray) -> Unit = {})
+class SynthMidiController(
+        private val controls: List<MidiHandler>,
+        val sendMessage: (ByteArray) -> Unit = {},
+        val buffer: ByteArray = ByteArray(3)) {
+    init {
+        controls.forEach { it.byteBuffer = buffer; it.sendMessage = sendMessage }
+    }
+
+    fun control(name: String): MidiHandler {
+        return controls.first { it.name == name }
+    }
+}
 
 
 
