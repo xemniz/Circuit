@@ -9,6 +9,7 @@ import circuit.ru.xmn.circuit.R
 import circuit.ru.xmn.circuit.model.layoutbuilder.ViewBuilder
 import circuit.ru.xmn.circuit.screens.settings.MidiSettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.selector
 import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +27,29 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         settingsButton.setOnClickListener { startActivity<MidiSettingsActivity>() }
+        saveLoadButton.setOnClickListener {
+            val editSynth = "Edit synths"
+            val loadPreset = "Load preset"
+            val saveCurrent = "Save current"
+            val saveCurrentAs = "Save current as"
+            val countries = listOf(editSynth, loadPreset, saveCurrent, saveCurrentAs)
+            selector("Where are you from?", countries, { _, i ->
+                when (countries[i]) {
+                    editSynth -> {
+                        
+                    }
+                    loadPreset -> {
+                        
+                    }
+                    saveCurrent -> {
+                        
+                    }
+                    saveCurrentAs -> {
+                        
+                    }
+                }
+            })
+        }
     }
 
     private fun setupViewmodel() {

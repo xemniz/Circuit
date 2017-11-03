@@ -7,7 +7,7 @@ import circuit.ru.xmn.circuit.model.midicontrol.Range
 
 object CircuitSynthProvider {
 
-    fun provideCircuitSynth(sendMessage: (ByteArray) -> Unit): SynthMidiController {
+    fun provideCircuitSynth(sendMessage: (ByteArray) -> Unit = {}): SynthMidiController {
         return SynthMidiController(
                 provideControls(), sendMessage)
     }
@@ -414,19 +414,6 @@ object CircuitSynthProvider {
                 MidiHandler("synth $number macro knob 8 end position D", number, NrpnValue(3, 126).value(), controlType = MidiControlType.NRPN),
                 MidiHandler("synth $number macro knob 8 depth D", number, NrpnValue(3, 127).value(), controlType = MidiControlType.NRPN)
         )
-    }
-}
-
-class SynthMidiController(
-        private val controls: List<MidiHandler>,
-        val sendMessage: (ByteArray) -> Unit = {},
-        val buffer: ByteArray = ByteArray(3)) {
-    init {
-        controls.forEach { it.byteBuffer = buffer; it.sendMessage = sendMessage }
-    }
-
-    fun control(name: String): MidiHandler {
-        return controls.first { it.name == name }
     }
 }
 

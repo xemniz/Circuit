@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="circuit.ru.xmn.circuit.screens.main.MainActivity">
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             tools:context="circuit.ru.xmn.circuit.screens.main.MainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -23,7 +23,16 @@
             android:layout_height="24dp"
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_settings_black_24dp" />
+            android:src="@drawable/ic_settings_black_24dp"/>
+
+        <ImageButton
+            android:id="@+id/saveLoadButton"
+            style="@style/Base.Widget.AppCompat.Toolbar.Button.Navigation"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_folder_black_24dp"/>
     </android.support.v7.widget.Toolbar>
 
     <FrameLayout
@@ -33,6 +42,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
 </android.support.constraint.ConstraintLayout>
