@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.FrameLayout
 import circuit.ru.xmn.circuit.R
 import circuit.ru.xmn.circuit.model.layoutbuilder.ViewBuilder
+import circuit.ru.xmn.circuit.screens.presets.LoadPresetsActivity
 import circuit.ru.xmn.circuit.screens.settings.MidiSettingsActivity
+import circuit.ru.xmn.circuit.screens.synths.EditSynthsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.startActivity
@@ -28,21 +30,20 @@ class MainActivity : AppCompatActivity() {
     private fun setupListeners() {
         settingsButton.setOnClickListener { startActivity<MidiSettingsActivity>() }
         saveLoadButton.setOnClickListener {
-            val editSynth = "Edit synths"
+            val editSynths = "Edit synths"
             val loadPreset = "Load preset"
             val saveCurrent = "Save current"
             val saveCurrentAs = "Save current as"
-            val countries = listOf(editSynth, loadPreset, saveCurrent, saveCurrentAs)
+            val countries = listOf(editSynths, loadPreset, saveCurrent, saveCurrentAs)
             selector("Where are you from?", countries, { _, i ->
                 when (countries[i]) {
-                    editSynth -> {
-                        
+                    editSynths -> {
+                        startActivity<EditSynthsActivity>()
                     }
                     loadPreset -> {
-                        
+                        startActivity<LoadPresetsActivity>()
                     }
                     saveCurrent -> {
-                        
                     }
                     saveCurrentAs -> {
                         
@@ -73,4 +74,9 @@ class MainActivity : AppCompatActivity() {
             title = "Main"
         }
     }
+
+    companion object  {
+        const val PRESET_NAME = "PRESET_NAME"
+    }
 }
+

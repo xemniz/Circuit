@@ -9,7 +9,7 @@ object CircuitSynthProvider {
 
     fun provideCircuitSynth(sendMessage: (ByteArray) -> Unit = {}): SynthMidiController {
         return SynthMidiController(
-                provideControls(), sendMessage)
+                name = "Novation Circuit", controls = provideControls(), sendMessage = sendMessage)
     }
 
     private fun provideControls(): List<MidiHandler> {

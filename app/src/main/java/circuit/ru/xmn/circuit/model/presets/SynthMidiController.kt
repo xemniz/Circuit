@@ -3,9 +3,9 @@ package circuit.ru.xmn.circuit.model.presets
 import circuit.ru.xmn.circuit.model.midicontrol.MidiHandler
 
 class SynthMidiController(
+        val name: String,
         private val controls: List<MidiHandler>,
-        val sendMessage: (ByteArray) -> Unit = {},
-        val buffer: ByteArray = ByteArray(3)) {
+        val sendMessage: (ByteArray) -> Unit = {}, val buffer: ByteArray = ByteArray(3)) {
     init {
         controls.forEach { it.byteBuffer = buffer; it.sendMessage = sendMessage }
     }

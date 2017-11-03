@@ -1,5 +1,6 @@
 package ru.xmn.common.adapter
 
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +8,7 @@ import ru.xmn.common.extensions.inflate
 import kotlin.properties.Delegates
 
 
-class BaseAdapter : RecyclerView.Adapter<BaseAdapter.ViewHolder>(), AutoUpdatableAdapter {
+class LastAdapter : RecyclerView.Adapter<LastAdapter.ViewHolder>(), AutoUpdatableAdapter {
 
     var items: List<Item> by Delegates.observable(emptyList()) { _, oldValue, newValue ->
         autoNotify(oldValue, newValue, compare = { item1, item2 -> item1.compare(item2) })
@@ -42,4 +43,14 @@ class BaseAdapter : RecyclerView.Adapter<BaseAdapter.ViewHolder>(), AutoUpdatabl
         abstract fun layoutId(): Int
         abstract fun compare(anotherItemValue: Any): Boolean
     }
+}
+
+fun RecyclerView.bindItems(items: List<LastAdapter.Item>, layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this.context)) {
+    if (this.layoutManager == null)
+        this.layoutManager = layoutManager
+    if (this.adapter == null)
+        this.adapter = LastAdapter()
+    if (this.adapter !is LastAdapter)
+        throw IllegalStateException("Appliable only for LastAdapter")
+    (this.adapter as LastAdapter).items = items
 }

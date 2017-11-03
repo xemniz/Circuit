@@ -23,6 +23,8 @@
             android:name=".screens.settings.MidiSettingsActivity"
             android:label="@string/title_activity_midi_settings"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".screens.presets.LoadPresetsActivity" />
+        <activity android:name=".screens.synths.EditSynthsActivity" />
     </application>
 
 </manifest>
