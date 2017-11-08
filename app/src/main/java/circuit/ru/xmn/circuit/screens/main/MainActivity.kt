@@ -1,7 +1,7 @@
 package circuit.ru.xmn.circuit.screens.main
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.FrameLayout
@@ -13,18 +13,29 @@ import circuit.ru.xmn.circuit.screens.synths.EditSynthsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.startActivity
+import ru.xmn.common.extensions.viewModelProvider
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var circuitViewModel: CircuitViewModel
+    private val circuitViewModel: CircuitViewModel by viewModelProvider()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupViewmodel()
+        setupViewModel()
         setupListeners()
         setupToolbar()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.apply {
+            val presetName = getStringExtra(PRESET_NAME)
+            presetName?.let {
+                circuitViewModel.loadPreset(presetName)
+            }
+        }
     }
 
     private fun setupListeners() {
@@ -53,8 +64,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupViewmodel() {
-        circuitViewModel = ViewModelProviders.of(this).get(CircuitViewModel::class.java)
+    private fun setupViewModel() {
         circuitViewModel.midiControllerPreset.observe(this, Observer {
             bindView(it!!)
         })
@@ -66,7 +76,6 @@ class MainActivity : AppCompatActivity() {
         }
         midiControllerContainer.addView(view)
     }
-
 
     private fun setupToolbar() {
         setSupportActionBar(toolbar)

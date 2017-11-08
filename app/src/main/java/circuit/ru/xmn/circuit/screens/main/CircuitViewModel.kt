@@ -7,11 +7,12 @@ import circuit.ru.xmn.circuit.midiservice.MidiReceiverPortProvider
 import circuit.ru.xmn.circuit.model.layoutbuilder.ViewBuilder
 import circuit.ru.xmn.circuit.model.presets.CircuitPresetProvider
 import circuit.ru.xmn.circuit.model.presets.CircuitSynthProvider
+import circuit.ru.xmn.circuit.model.presets.PresetsRepository
 import javax.inject.Inject
 
 class CircuitViewModel : ViewModel() {
-    @Inject
-    lateinit var outputPortProvider: MidiReceiverPortProvider
+    @Inject lateinit var outputPortProvider: MidiReceiverPortProvider
+    @Inject lateinit var presetRepository: PresetsRepository
     val midiControllerPreset: MutableLiveData<ViewBuilder> = MutableLiveData()
 
     init {
@@ -23,6 +24,10 @@ class CircuitViewModel : ViewModel() {
 
     fun midiSend(buffer: ByteArray) {
         outputPortProvider.midiSend(buffer)
+    }
+
+    fun loadPreset(presetName: String) {
+        midiControllerPreset.value = presetRepository.getPreset(presetName)
     }
 }
 

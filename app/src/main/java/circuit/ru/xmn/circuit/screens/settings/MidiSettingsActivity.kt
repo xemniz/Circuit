@@ -3,7 +3,6 @@ package circuit.ru.xmn.circuit.screens.settings
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatSpinner
@@ -13,14 +12,15 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import circuit.ru.xmn.circuit.R
 import circuit.ru.xmn.circuit.application.App
-import circuit.ru.xmn.circuit.midiservice.MidiReceiverPortProvider
 import circuit.ru.xmn.circuit.midiservice.MidiPortWrapper
+import circuit.ru.xmn.circuit.midiservice.MidiReceiverPortProvider
 import kotlinx.android.synthetic.main.activity_midi_settings.*
+import ru.xmn.common.extensions.viewModelProvider
 import javax.inject.Inject
 
 class MidiSettingsActivity : AppCompatActivity() {
     private lateinit var adapter: ArrayAdapter<MidiPortWrapper>
-    private lateinit var midiSettingsViewModel: MidiSettingsViewModel
+    private val midiSettingsViewModel: MidiSettingsViewModel by viewModelProvider()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +49,6 @@ class MidiSettingsActivity : AppCompatActivity() {
     }
 
     private fun setupViewmodel() {
-        midiSettingsViewModel = ViewModelProviders.of(this).get(MidiSettingsViewModel::class.java)
         midiSettingsViewModel.outpurPorts.observe(this, Observer { bindPorts(it!!) })
     }
 
