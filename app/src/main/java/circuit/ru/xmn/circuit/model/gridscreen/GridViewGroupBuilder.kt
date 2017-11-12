@@ -5,22 +5,20 @@ import android.support.v7.widget.GridLayout
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import circuit.ru.xmn.circuit.model.layoutbuilder.*
+import circuit.ru.xmn.circuit.model.layoutbuilder.DeletableViewBuilder
+import circuit.ru.xmn.circuit.model.layoutbuilder.ViewBuilder
 
-class GridViewGroupBuilder(val childes: List<MidiGridItem>) : ViewBuilder, EditCommandsResolver {
-    override fun resolve(command: Command) {
+class GridViewGroupBuilder(childes: List<MidiGridItem>) : ViewBuilder {
 
-    }
+    private val myChildes: MutableList<MidiGridItem> = childes.sorted().toMutableList()
+
+    val childes: List<MidiGridItem>
+        get() = myChildes.toList()
 
     override fun build(context: Context): View {
         val gridLayout = GridLayout(context)
-        childes.map { bindParams(gridLayout, it) }.forEach { gridLayout.addView(it) }
-
-        val root = FrameLayout(context).apply {
-            addView(gridLayout.apply { layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT) })
-        }
-        return root
+        myChildes.map { bindParams(gridLayout, it) }.forEach { gridLayout.addView(it) }
+        return gridLayout
     }
 
     fun bindParams(root: ViewGroup, builder: MidiGridItem): View {
@@ -33,12 +31,15 @@ class GridViewGroupBuilder(val childes: List<MidiGridItem>) : ViewBuilder, EditC
             width = 0
         }
 
-        return builder.build(root.context).apply { layoutParams = cellParams }
+        val view = DeletableViewBuilder(builder, {
+            removeChild(root, builder)
+        }).build(root.context)
+        view.setTag(builder)
+        return view.apply { layoutParams = cellParams }
+    }
+
+    private fun removeChild(root: ViewGroup, builder: MidiGridItem) {
+        root.removeView(root.findViewWithTag<View>(builder))
+        myChildes.remove(builder)
     }
 }
-
-interface EditCommandsResolver {
-    fun resolve(command: Command)
-}
-
-sealed class Command

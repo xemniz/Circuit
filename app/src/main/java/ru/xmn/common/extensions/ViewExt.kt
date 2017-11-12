@@ -8,6 +8,13 @@ import android.graphics.drawable.TransitionDrawable
 import android.support.v4.view.ViewCompat
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.support.v4.content.res.TypedArrayUtils.getResourceId
+import android.content.res.TypedArray
+import circuit.ru.xmn.circuit.R
+import android.graphics.drawable.Drawable
+
+
+
 
 fun View.pairSharedTransition(): android.support.v4.util.Pair<View, String> {
     return android.support.v4.util.Pair<View, String>(this, ViewCompat.getTransitionName(this))
@@ -75,4 +82,12 @@ fun View.animateBackground(startColor: Int, endColor: Int, duration: Int = 300) 
     val trans = TransitionDrawable(color)
     this.background = trans
     trans.startTransition(duration)
+}
+
+fun Context.drawableFromAttr(attrId: Int): Drawable? {
+    val attrs = intArrayOf(attrId)
+    val typedArray = obtainStyledAttributes(attrs)
+    val drawableFromTheme = typedArray.getDrawable(0 )
+    typedArray.recycle()
+    return drawableFromTheme
 }

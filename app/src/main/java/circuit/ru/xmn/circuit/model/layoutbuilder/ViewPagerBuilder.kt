@@ -6,12 +6,12 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
 
-class ViewPagerBuilder(override val childes: List<ViewBuilder>) {
-    override fun root(context: Context): ViewPager {
+class ViewPagerBuilder(val childes: List<ViewBuilder>) {
+    fun root(context: Context): ViewPager {
         return ViewPager(context)
     }
 
-    override fun build(context: Context): View {
+    fun build(context: Context): View {
         val root = root(context)
         root.adapter = object : PagerAdapter() {
 

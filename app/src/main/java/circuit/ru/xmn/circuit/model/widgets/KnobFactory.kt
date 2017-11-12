@@ -33,7 +33,6 @@ object KnobFactory : MidiWidgetFactory {
                         layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f).apply {
                             setGravity(Gravity.CENTER_HORIZONTAL)
                         }
-                        setBackgroundColor(Color.CYAN)
                     }
             )
             addView(
