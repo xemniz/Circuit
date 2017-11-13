@@ -2,7 +2,6 @@ package circuit.ru.xmn.circuit.model.widgets
 
 import android.content.Context
 import android.graphics.Color
-import android.provider.CalendarContract
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
@@ -10,10 +9,6 @@ import android.widget.TextView
 import circuit.ru.xmn.circuit.model.midicontrol.MidiHandler
 import it.beppi.knoblibrary.Knob
 import ru.xmn.common.extensions.dpToPx
-
-interface MidiWidgetFactory {
-    fun create(context: Context, controller: MidiHandler): View
-}
 
 object KnobFactory : MidiWidgetFactory {
     override fun create(context: Context, controller: MidiHandler): View {
