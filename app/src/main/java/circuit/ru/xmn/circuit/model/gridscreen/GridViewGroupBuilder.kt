@@ -1,6 +1,7 @@
 package circuit.ru.xmn.circuit.model.gridscreen
 
 import android.content.Context
+import android.opengl.Matrix
 import android.support.v7.widget.GridLayout
 import android.view.Gravity
 import android.view.View
@@ -10,14 +11,24 @@ import circuit.ru.xmn.circuit.model.layoutbuilder.ViewBuilder
 
 class GridViewGroupBuilder(childes: List<MidiGridItem>) : ViewBuilder {
 
-    private val myChildes: MutableList<MidiGridItem> = childes.sorted().toMutableList()
+    private val internalChildes: MutableList<MidiGridItem> = prepareInternalList(childes)
+
+    private fun prepareInternalList(childes: List<MidiGridItem>): MutableList<MidiGridItem> {
+        val internalList = childes.toMutableList()
+        val (rowsCount, columnsCount) = internalList.fold(Pair(0, 0)) { acc, midiGridItem ->
+            val rowsCount = Math.max(midiGridItem.gridPositionInfo.row, acc.first)
+            val columnsCount = Math.max(midiGridItem.gridPositionInfo.column, acc.second)
+            Pair(rowsCount, columnsCount)
+        }
+        return internalList
+    }
 
     val childes: List<MidiGridItem>
-        get() = myChildes.toList()
+        get() = internalChildes.toList()
 
     override fun build(context: Context): View {
         val gridLayout = GridLayout(context)
-        myChildes.map { bindParams(gridLayout, it) }.forEach { gridLayout.addView(it) }
+        internalChildes.map { bindParams(gridLayout, it) }.forEach { gridLayout.addView(it) }
         return gridLayout
     }
 
@@ -40,6 +51,6 @@ class GridViewGroupBuilder(childes: List<MidiGridItem>) : ViewBuilder {
 
     private fun removeChild(root: ViewGroup, builder: MidiGridItem) {
         root.removeView(root.findViewWithTag<View>(builder))
-        myChildes.remove(builder)
+        internalChildes.remove(builder)
     }
 }
