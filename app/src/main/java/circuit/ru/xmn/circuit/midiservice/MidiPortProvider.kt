@@ -68,7 +68,7 @@ abstract class MidiPortProvider(val midiManager: MidiManager, val type: Int) : M
     }
 
     override fun onDeviceStatusChanged(status: MidiDeviceStatus) {
-        // If an input port becomes busy then remove it from the menu.
+        // If an input port becomes busy then clear it from the menu.
         // If it becomes free then add it back to the menu.
         if (type == MidiDeviceInfo.PortInfo.TYPE_INPUT) {
             val info = status.deviceInfo

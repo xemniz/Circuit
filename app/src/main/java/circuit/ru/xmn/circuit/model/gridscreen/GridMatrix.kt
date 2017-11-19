@@ -1,21 +1,78 @@
 package circuit.ru.xmn.circuit.model.gridscreen
 
-/**
- * Created by USER on 14.11.2017.
- */
-class GridMatrix(rows: Int, columns: Int, val provideEmpty: () -> MidiGridItem) {
-    val array = Array(rows) { arrayOfNulls<MidiGridItem>(columns) }
+import circuit.ru.xmn.circuit.model.layoutbuilder.ViewBuilder
 
-    fun fill(items: List<MidiGridItem>) {
-        items.forEach {
-            array[it.gridPositionInfo.row][it.gridPositionInfo.column] = it
-        }
+class GridMatrix(val callback: Callback) {
+    var matrixWrapper = MatrixWrapper()
 
-        array.forEachIndexed { row,  rowsList ->
-            rowsList.forEachIndexed {column,  columnItem ->
-                if (columnItem == null)
-                    array[row][column] = provideEmpty()
+    fun initMatrix(items: List<MidiGridItem>) {
+        fillInSize(items, calculateMatrixSize(items))
+        renderMatrix()
+    }
+
+    fun addGridItem(rowString: String, columnString: String, widthString: String, heightString: String, builder: ViewBuilder) {
+        val row = rowString.toInt()
+        val column = columnString.toInt()
+        val width = widthString.toInt()
+        val height = heightString.toInt()
+        val item = MidiGridItem(GridPositionInfo(row, column, width, height), builder)
+        when {
+            !matrixWrapper.isInBounds(item) -> {
+                val items = matrixWrapper.getItems()
+                fillInSize(items, calculateMatrixSize(items + item))
+                matrixWrapper.setItem(item)
             }
+            else -> matrixWrapper.setItem(item)
+        }
+        refillMatrix()
+        renderMatrix()
+    }
+
+    fun remove(item: MidiGridItem) {
+        matrixWrapper.removeItem(item)
+        refillMatrix()
+        renderMatrix()
+    }
+
+    private fun fillInSize(items: List<MidiGridItem>, size: Pair<Int, Int>) {
+        val (rowsCount, columnsCount) = size
+        matrixWrapper.refreshMatrixSize(rowsCount, columnsCount)
+        items.forEach {
+            matrixWrapper.setItem(it)
+        }
+        fillMatrixWithEmpties()
+    }
+
+    private fun refillMatrix() {
+        fillInSize(matrixWrapper.getItems(), calculateMatrixSize(matrixWrapper.getItems()))
+    }
+
+    private fun renderMatrix() {
+        callback.clear()
+        matrixWrapper.getItems().forEach { callback.add(it) }
+    }
+
+    private fun fillMatrixWithEmpties() {
+        matrixWrapper.forEachIndexed { midiGridItem, row, column ->
+            if (midiGridItem == null)
+                matrixWrapper.setItem(callback.provideEmpty(row, column))
         }
     }
+
+    private fun calculateMatrixSize(items: List<MidiGridItem>): Pair<Int, Int> {
+        return items.fold(Pair(0, 0)) { acc, midiGridItem ->
+            val rowsCount = Math.max(midiGridItem.gridPositionInfo.row + midiGridItem.gridPositionInfo.height - 1, acc.first)
+            val columnsCount = Math.max(midiGridItem.gridPositionInfo.column + midiGridItem.gridPositionInfo.width - 1, acc.second)
+            Pair(rowsCount, columnsCount)
+        }
+    }
+
+    fun items(): List<MidiGridItem> = matrixWrapper.getItems()
+
+    interface Callback {
+        fun clear()
+        fun add(item: MidiGridItem)
+        fun provideEmpty(row: Int, column: Int): MidiGridItem
+    }
 }
+

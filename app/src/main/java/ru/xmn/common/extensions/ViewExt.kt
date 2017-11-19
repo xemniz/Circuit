@@ -1,19 +1,15 @@
 package ru.xmn.common.extensions
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.TransitionDrawable
 import android.support.v4.view.ViewCompat
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.support.v4.content.res.TypedArrayUtils.getResourceId
-import android.content.res.TypedArray
-import circuit.ru.xmn.circuit.R
-import android.graphics.drawable.Drawable
-
-
 
 
 fun View.pairSharedTransition(): android.support.v4.util.Pair<View, String> {
@@ -32,17 +28,22 @@ fun View.isInBounds(x: Int, y: Int): Boolean {
 fun View.visible() {
     this.visibility = View.VISIBLE
 }
+
 fun View.invisible() {
     this.visibility = View.INVISIBLE
 }
+
 fun View.gone() {
     this.visibility = View.GONE
 }
+
 fun List<View>.visibleOnly(vararg view: View) {
-    this.forEach {v ->  when{
-        view.any { it.id == v.id } -> v.visible()
-        else -> v.invisible()
-    } }
+    this.forEach { v ->
+        when {
+            view.any { it.id == v.id } -> v.visible()
+            else -> v.invisible()
+        }
+    }
 }
 
 val Int.dpToPx: Int
@@ -55,13 +56,13 @@ val Int.pxToDp: Int
         return (this / Resources.getSystem().displayMetrics.density).toInt()
     }
 
-fun View.changeWidth(w: Int){
+fun View.changeWidth(w: Int) {
     val layoutParams = this.layoutParams
     layoutParams.width = w
     this.layoutParams = layoutParams
 }
 
-fun View.changeHeight(w: Int){
+fun View.changeHeight(w: Int) {
     val layoutParams = this.layoutParams
     layoutParams.height = w
     this.layoutParams = layoutParams
@@ -87,7 +88,15 @@ fun View.animateBackground(startColor: Int, endColor: Int, duration: Int = 300) 
 fun Context.drawableFromAttr(attrId: Int): Drawable? {
     val attrs = intArrayOf(attrId)
     val typedArray = obtainStyledAttributes(attrs)
-    val drawableFromTheme = typedArray.getDrawable(0 )
+    val drawableFromTheme = typedArray.getDrawable(0)
     typedArray.recycle()
     return drawableFromTheme
+}
+
+tailrec fun View.getActivity(): Activity? {
+    if (context is Activity)
+        return context as Activity
+    if (parent == null || parent !is View)
+        return null
+    return (parent as View).getActivity()
 }

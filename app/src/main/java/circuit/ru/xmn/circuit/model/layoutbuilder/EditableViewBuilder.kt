@@ -11,11 +11,21 @@ import ru.xmn.common.extensions.gone
 import ru.xmn.common.extensions.inflate
 import ru.xmn.common.extensions.visible
 
+interface EditableViewBuilder : ViewBuilder, Editable {
+    val editDialogRenderer: EditDialogRenderer
+    override fun change(state: EditableState)
 
-class DeletableViewBuilder(val viewBuilder: ViewBuilder, val deleteClicked: () -> Unit) : ViewBuilder, Stateful {
+    override fun build(context: Context): View
+}
+
+class EditDialogRenderer {
+
+}
+
+class DeletableViewBuilder(val viewBuilder: ViewBuilder, val deleteClicked: () -> Unit) : ViewBuilder, Editable {
     var deleteButton: View? = null
 
-    override fun change(state: State) {
+    override fun change(state: EditableState) {
         when (state) {
             is NormalState -> {
                 deleteButton?.visible()
