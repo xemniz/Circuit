@@ -18,7 +18,8 @@ class GridMatrix(val callback: Callback) {
         val item = MidiGridItem(GridPositionInfo(row, column, width, height), builder)
         when {
             !matrixWrapper.isInBounds(item) -> {
-                val items = matrixWrapper.getItems()
+                val items = matrixWrapper.getItems().filter { it !is EmptyGridItem }
+
                 fillInSize(items, calculateMatrixSize(items + item))
                 matrixWrapper.setItem(item)
             }
@@ -44,7 +45,8 @@ class GridMatrix(val callback: Callback) {
     }
 
     private fun refillMatrix() {
-        fillInSize(matrixWrapper.getItems(), calculateMatrixSize(matrixWrapper.getItems()))
+        fillInSize(matrixWrapper.getItems().filter { it !is EmptyGridItem }, calculateMatrixSize(matrixWrapper.getItems().filter { it !is EmptyGridItem }
+        ))
     }
 
     private fun renderMatrix() {
@@ -67,7 +69,7 @@ class GridMatrix(val callback: Callback) {
         }
     }
 
-    fun items(): List<MidiGridItem> = matrixWrapper.getItems()
+    fun items(): List<MidiGridItem> = matrixWrapper.getItems().filter { it !is EmptyGridItem }
 
     interface Callback {
         fun clear()

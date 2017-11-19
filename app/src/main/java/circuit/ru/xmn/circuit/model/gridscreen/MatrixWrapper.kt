@@ -12,30 +12,28 @@ class MatrixWrapper(private var rows: Int = 1, private var columns: Int = 4) {
         array = setMatrixSize(rows, columns)
     }
 
-    fun setItem(midiGridItem: MidiGridItem): MutableList<MidiGridItem> {
-        val itemsToRemove: MutableList<MidiGridItem> = ArrayList()
+    fun setItem(midiGridItem: MidiGridItem){
+        println("${midiGridItem.gridPositionInfo}")
         matrixActionWithItem(midiGridItem) { item, row, col ->
-            if (array[row][col] != null) {
-                itemsToRemove += removeItem(array[row][col]!!)
-            }
+            println("${item?.gridPositionInfo} $row $col")
             array[row][col] = item
         }
-        return itemsToRemove
     }
 
-    fun removeItem(midiGridItem: MidiGridItem): MidiGridItem {
-        val result = array[midiGridItem.gridPositionInfo.row - 1][midiGridItem.gridPositionInfo.column - 1]
+    fun removeItem(midiGridItem: MidiGridItem) {
         matrixActionWithItem(midiGridItem) { item, row, col ->
             array[row][col] = null
         }
-        return result!!
     }
 
     private fun matrixActionWithItem(item: MidiGridItem, action: (MidiGridItem?, Int, Int) -> Unit) {
-        for (row in 0..item.gridPositionInfo.height)
-            for (col in 0..item.gridPositionInfo.width) {
-                action(item, item.gridPositionInfo.row - 1 + row, item.gridPositionInfo.column - 1 + col)
+        val rowInMatrix = item.gridPositionInfo.row - 1
+        for (row in rowInMatrix until rowInMatrix + item.gridPositionInfo.height) {
+            val columnInMatrix = item.gridPositionInfo.column - 1
+            for (col in columnInMatrix until columnInMatrix + item.gridPositionInfo.width) {
+                action(item, row, col)
             }
+        }
     }
 
     fun forEachIndexed(action: (MidiGridItem?, Int, Int) -> Unit) {
@@ -57,7 +55,6 @@ class MatrixWrapper(private var rows: Int = 1, private var columns: Int = 4) {
                 acc.addAll(elements)
                 acc
             }
-            .filter { it !is EmptyGridItem }
             .distinctBy { it.builder }
             .toList()
 }

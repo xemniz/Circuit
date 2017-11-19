@@ -7,7 +7,7 @@ enum class Widget(val widgetName: String, val factory: MidiWidgetFactory) {
     KNOB("Knob", KnobFactory);
 
     companion object {
-        fun widgetNames() = values().map { it.name }
+        fun widgetNames() = values().map { it.widgetName }
         fun widget(widgetName: String) = values().first { it.widgetName == widgetName }.factory
     }
 }

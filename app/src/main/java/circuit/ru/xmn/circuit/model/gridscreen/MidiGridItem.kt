@@ -9,7 +9,7 @@ open class MidiGridItem(val gridPositionInfo: GridPositionInfo, val builder: Vie
 
 class EmptyGridItem(gridPositionInfo: GridPositionInfo, builder: ViewBuilder):MidiGridItem(gridPositionInfo, builder)
 
-class GridPositionInfo(val row: Int,
+data class GridPositionInfo(val row: Int,
                        val column: Int,
                        val width: Int = 1,
                        val height: Int = 1)

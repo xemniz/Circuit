@@ -13,7 +13,6 @@ import circuit.ru.xmn.circuit.model.layoutbuilder.ViewBuilder
 import circuit.ru.xmn.circuit.model.widgets.AddButtonWidget
 import org.jetbrains.anko.*
 import ru.xmn.common.extensions.getActivity
-import ru.xmn.common.extensions.views
 
 class GridViewGroupBuilder(private val initialChildes: List<MidiGridItem>, val midiControlProvider: MidiControlProvider) : ViewBuilder, GridMatrix.Callback {
     override fun provideEmpty(row: Int, column: Int): MidiGridItem {
@@ -47,8 +46,8 @@ class GridViewGroupBuilder(private val initialChildes: List<MidiGridItem>, val m
 
     fun bindParams(root: ViewGroup, builder: MidiGridItem): View {
         val cellParams = GridLayout.LayoutParams(
-                GridLayout.spec(builder.gridPositionInfo.row - 1, 1f),
-                GridLayout.spec(builder.gridPositionInfo.column - 1, 1f)
+                GridLayout.spec(builder.gridPositionInfo.row - 1, builder.gridPositionInfo.height.toFloat()),
+                GridLayout.spec(builder.gridPositionInfo.column - 1, builder.gridPositionInfo.width.toFloat())
         ).apply {
             setGravity(Gravity.FILL)
             height = 0
@@ -78,7 +77,7 @@ class GridViewGroupBuilder(private val initialChildes: List<MidiGridItem>, val m
                         textView {
                             text = "Midi control"
                         }
-                        spinner {
+                        midiControl = spinner {
                             adapter = ArrayAdapter<String>(
                                     context,
                                     android.R.layout.simple_spinner_dropdown_item,
@@ -87,7 +86,7 @@ class GridViewGroupBuilder(private val initialChildes: List<MidiGridItem>, val m
                         textView {
                             text = "Widget"
                         }
-                        spinner {
+                        widget = spinner {
                             adapter = ArrayAdapter<String>(
                                     context,
                                     android.R.layout.simple_spinner_dropdown_item,
