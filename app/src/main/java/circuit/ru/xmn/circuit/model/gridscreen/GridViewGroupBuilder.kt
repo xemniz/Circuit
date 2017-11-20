@@ -46,8 +46,8 @@ class GridViewGroupBuilder(private val initialChildes: List<MidiGridItem>, val m
 
     fun bindParams(root: ViewGroup, builder: MidiGridItem): View {
         val cellParams = GridLayout.LayoutParams(
-                GridLayout.spec(builder.gridPositionInfo.row - 1, builder.gridPositionInfo.height.toFloat()),
-                GridLayout.spec(builder.gridPositionInfo.column - 1, builder.gridPositionInfo.width.toFloat())
+                GridLayout.spec(builder.gridPositionInfo.row - 1, builder.gridPositionInfo.height,builder.gridPositionInfo.height.toFloat()),
+                GridLayout.spec(builder.gridPositionInfo.column - 1, builder.gridPositionInfo.width, builder.gridPositionInfo.width.toFloat())
         ).apply {
             setGravity(Gravity.FILL)
             height = 0

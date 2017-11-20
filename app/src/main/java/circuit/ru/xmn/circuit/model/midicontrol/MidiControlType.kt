@@ -15,7 +15,19 @@ enum class MidiControlType {
 
     NRPN {
         override fun createMidiCommand(byteBuffer: ByteArray, channel: Int, controlNumber: Int, value: Int): ByteArray {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            byteBuffer[0] = (MidiConstants.STATUS_CONTROL_CHANGE + channel).toByte()
+            byteBuffer[1] = 0x63.toByte()
+            byteBuffer[2] = NrpnValue.from(controlNumber).msb.toByte()
+
+            byteBuffer[0] = (MidiConstants.STATUS_CONTROL_CHANGE + channel).toByte()
+            byteBuffer[1] = 0x62.toByte()
+            byteBuffer[2] = NrpnValue.from(controlNumber).lsb.toByte()
+
+            byteBuffer[0] = (MidiConstants.STATUS_CONTROL_CHANGE + channel).toByte()
+            byteBuffer[1] = 0x06.toByte()
+            byteBuffer[2] = value.toByte()
+
+            return byteBuffer
         }
     };
 
