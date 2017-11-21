@@ -40,7 +40,6 @@ class GridViewGroupBuilder(private val initialChildes: List<MidiGridItem>, val m
         gridLayout = GridLayout(context)
         matrix = GridMatrix(this)
         matrix.initMatrix(initialChildes)
-        childes.map { bindParams(gridLayout, it) }.forEach { gridLayout.addView(it) }
         return gridLayout
     }
 

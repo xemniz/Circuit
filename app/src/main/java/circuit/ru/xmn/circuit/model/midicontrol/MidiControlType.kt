@@ -4,32 +4,24 @@ import circuit.ru.xmn.circuit.midiservice.MidiConstants
 
 enum class MidiControlType {
     CC {
-        override fun createMidiCommand(byteBuffer: ByteArray, channel: Int, controlNumber: Int, value: Int): ByteArray {
-            byteBuffer[0] = (MidiConstants.STATUS_CONTROL_CHANGE + channel).toByte()
-            byteBuffer[1] = controlNumber.toByte()
-            byteBuffer[2] = value.toByte()
-
-            return byteBuffer
+        override fun sendMidiCommand(send: (ByteArray) -> Unit, byteBuffer: ByteArray, channel: Int, controlNumber: Int, value: Int) {
+            send(byteBuffer.midi(channel, controlNumber, value))
         }
     },
 
     NRPN {
-        override fun createMidiCommand(byteBuffer: ByteArray, channel: Int, controlNumber: Int, value: Int): ByteArray {
-            byteBuffer[0] = (MidiConstants.STATUS_CONTROL_CHANGE + channel).toByte()
-            byteBuffer[1] = 0x63.toByte()
-            byteBuffer[2] = NrpnValue.from(controlNumber).msb.toByte()
-
-            byteBuffer[0] = (MidiConstants.STATUS_CONTROL_CHANGE + channel).toByte()
-            byteBuffer[1] = 0x62.toByte()
-            byteBuffer[2] = NrpnValue.from(controlNumber).lsb.toByte()
-
-            byteBuffer[0] = (MidiConstants.STATUS_CONTROL_CHANGE + channel).toByte()
-            byteBuffer[1] = 0x06.toByte()
-            byteBuffer[2] = value.toByte()
-
-            return byteBuffer
+        override fun sendMidiCommand(send: (ByteArray) -> Unit, byteBuffer: ByteArray, channel: Int, controlNumber: Int, value: Int) {
+            send(byteBuffer.midi(channel, 99, NrpnValue.from(controlNumber).msb))
+            send(byteBuffer.midi(channel, 98, NrpnValue.from(controlNumber).lsb))
+            send(byteBuffer.midi(channel, 6, value))
         }
     };
 
-    abstract fun createMidiCommand(byteBuffer: ByteArray, channel: Int, controlNumber: Int, value: Int): ByteArray
+    abstract fun sendMidiCommand(send: (ByteArray) -> Unit, byteBuffer: ByteArray, channel: Int, controlNumber: Int, value: Int)
+}
+
+fun ByteArray.midi(channel: Int, controlNumber: Int, value: Int) = this.apply {
+    this[0] = (MidiConstants.STATUS_CONTROL_CHANGE + channel).toByte()
+    this[1] = controlNumber.toByte()
+    this[2] = value.toByte()
 }
