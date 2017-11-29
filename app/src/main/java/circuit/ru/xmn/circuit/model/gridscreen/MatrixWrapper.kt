@@ -13,9 +13,7 @@ class MatrixWrapper(private var rows: Int = 1, private var columns: Int = 4) {
     }
 
     fun setItem(midiGridItem: MidiGridItem){
-        println("${midiGridItem.gridPositionInfo}")
         matrixActionWithItem(midiGridItem) { item, row, col ->
-            println("${item?.gridPositionInfo} $row $col")
             array[row][col] = item
         }
     }

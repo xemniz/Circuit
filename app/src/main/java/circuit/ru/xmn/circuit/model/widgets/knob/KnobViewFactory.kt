@@ -19,9 +19,9 @@ object KnobViewFactory : MidiWidgetFactory {
             addView(
                     KnobView(context).apply {
                         setKnobListener { controller.value = it.toInt() }
-                        value = controller.currentValue.toDouble()
                         setMin(controller.range.lower.toDouble())
                         setMax(controller.range.upper.toDouble())
+                        value = controller.currentValue.toDouble()
                         layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f).apply {
                             setGravity(Gravity.CENTER_HORIZONTAL)
                         }

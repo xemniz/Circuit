@@ -1,5 +1,6 @@
 package circuit.ru.xmn.circuit.model.midicontrol
 
+import ru.xmn.common.extensions.log
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -16,10 +17,16 @@ class MidiHandler(
     var sendMessage: ((ByteArray) -> Unit)? = null
     var currentValue = defaultValue
 
+    init {
+        log("init")
+    }
+
     private val changeListeners = WeakHashMap<(Int) -> Unit, Any>()
     private val VALUE_KEY_FOR_WEAK_MAP = Any()
 
     var value by Delegates.observable(defaultValue) { _, _, value ->
+        currentValue = value
+        log("$value")
         changeListeners.keys.forEach { it(value) }
         sendMessage?.let { send ->
             byteBuffer?.let { buf ->

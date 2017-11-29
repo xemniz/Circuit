@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.FrameLayout
 import circuit.ru.xmn.circuit.R
+import circuit.ru.xmn.circuit.model.layoutbuilder.Editable
 import circuit.ru.xmn.circuit.model.layoutbuilder.ViewBuilder
 import circuit.ru.xmn.circuit.screens.presets.LoadPresetsActivity
 import circuit.ru.xmn.circuit.screens.settings.MidiSettingsActivity
@@ -18,6 +19,7 @@ import ru.xmn.common.extensions.viewModelProvider
 class MainActivity : AppCompatActivity() {
 
     private val circuitViewModel: CircuitViewModel by viewModelProvider()
+    private var currentPreset: ViewBuilder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
+        editButton.setOnClickListener { circuitViewModel.changeState() }
         settingsButton.setOnClickListener { startActivity<MidiSettingsActivity>() }
         saveLoadButton.setOnClickListener {
             val editSynths = "Edit synths"
@@ -57,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                     saveCurrent -> {
                     }
                     saveCurrentAs -> {
-                        
+
                     }
                 }
             })
@@ -66,15 +69,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupViewModel() {
         circuitViewModel.midiControllerPreset.observe(this, Observer {
-            bindView(it!!)
+            bindView(it!!.viewBuilder)
+        })
+        circuitViewModel.editableState.observe(this, Observer {
+            (currentPreset as? Editable)?.change(it!!)
         })
     }
 
-    private fun bindView(controllerPreset: ViewBuilder) {
-        val view = controllerPreset.build(baseContext).apply {
-            layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
+    private fun bindView(rootBuilder: ViewBuilder) {
+        currentPreset = rootBuilder.apply {
+            val view = build(baseContext).apply {
+                layoutParams = FrameLayout
+                        .LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                                FrameLayout.LayoutParams.MATCH_PARENT)
+            }
+            midiControllerContainer.addView(view)
         }
-        midiControllerContainer.addView(view)
     }
 
     private fun setupToolbar() {
@@ -84,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    companion object  {
+    companion object {
         const val PRESET_NAME = "PRESET_NAME"
     }
 }

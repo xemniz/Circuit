@@ -2,7 +2,7 @@ package circuit.ru.xmn.circuit.model.gridscreen
 
 import circuit.ru.xmn.circuit.model.layoutbuilder.ViewBuilder
 
-open class MidiGridItem(val gridPositionInfo: GridPositionInfo, val builder: ViewBuilder) : ViewBuilder by builder, Comparable<MidiGridItem> {
+open class MidiGridItem(val gridPositionInfo: GridPositionInfo, val builder: ViewBuilder): Comparable<MidiGridItem> {
     override fun compareTo(other: MidiGridItem): Int =
             compareValuesBy(this, other, MidiGridItem::gridPositionInfo)
 }

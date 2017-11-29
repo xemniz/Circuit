@@ -8,56 +8,51 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
-import circuit.ru.xmn.circuit.model.layoutbuilder.DeletableViewBuilder
-import circuit.ru.xmn.circuit.model.layoutbuilder.ViewBuilder
+import circuit.ru.xmn.circuit.model.layoutbuilder.*
 import circuit.ru.xmn.circuit.model.widgets.AddButtonWidget
 import org.jetbrains.anko.*
 import ru.xmn.common.extensions.getActivity
 
-class GridViewGroupBuilder(private val initialChildes: List<MidiGridItem>, val midiControlProvider: MidiControlProvider) : ViewBuilder, GridMatrix.Callback {
-    override fun provideEmpty(row: Int, column: Int): MidiGridItem {
-        return emptyGridItem(gridLayout, row, column, {
-            requestAddGridItem(row, column)
-        })
-    }
-
-    override fun clear() {
-        gridLayout.removeAllViews()
-
-    }
-
-    override fun add(item: MidiGridItem) {
-        gridLayout.addView(bindParams(gridLayout, item))
-    }
-
+class GridViewGroupBuilder(
+        private val initialChildes: List<MidiGridItem>,
+        private val midiControlProvider: MidiControlProvider)
+    : ViewBuilder,
+        GridMatrix.Callback,
+        EditableParent {
     private lateinit var matrix: GridMatrix
     private lateinit var gridLayout: GridLayout
 
-    val childes: List<MidiGridItem>
+    val gridItems: List<MidiGridItem>
         get() = matrix.items()
 
     override fun build(context: Context): View {
+        //todo wrap to frame layout with add and edit buttons
         gridLayout = GridLayout(context)
         matrix = GridMatrix(this)
         matrix.initMatrix(initialChildes)
         return gridLayout
     }
 
-    fun bindParams(root: ViewGroup, builder: MidiGridItem): View {
+    fun bindItemToLayout(root: ViewGroup, midiGridItem: MidiGridItem): ViewBuilder {
         val cellParams = GridLayout.LayoutParams(
-                GridLayout.spec(builder.gridPositionInfo.row - 1, builder.gridPositionInfo.height,builder.gridPositionInfo.height.toFloat()),
-                GridLayout.spec(builder.gridPositionInfo.column - 1, builder.gridPositionInfo.width, builder.gridPositionInfo.width.toFloat())
+                GridLayout.spec(midiGridItem.gridPositionInfo.row - 1, midiGridItem.gridPositionInfo.height, midiGridItem.gridPositionInfo.height.toFloat()),
+                GridLayout.spec(midiGridItem.gridPositionInfo.column - 1, midiGridItem.gridPositionInfo.width, midiGridItem.gridPositionInfo.width.toFloat())
         ).apply {
             setGravity(Gravity.FILL)
             height = 0
             width = 0
         }
 
-        val view = DeletableViewBuilder(builder, {
-            requestRemoveGridItem(builder)
-        }).build(root.context)
-        view.setTag(builder)
-        return view.apply { layoutParams = cellParams }
+        val deletableViewBuilder = DeletableViewBuilder(midiGridItem.builder, {
+            requestRemoveGridItem(midiGridItem)
+        })
+
+        val view = deletableViewBuilder
+                .build(root.context)
+                .apply { layoutParams = cellParams }
+        view.tag = midiGridItem
+        gridLayout.addView(view)
+        return deletableViewBuilder
     }
 
     private fun requestAddGridItem(rowNumber: Int, columnNumber: Int) {
@@ -145,6 +140,28 @@ class GridViewGroupBuilder(private val initialChildes: List<MidiGridItem>, val m
 
     private fun requestRemoveGridItem(builder: MidiGridItem) {
         matrix.remove(builder)
+    }
+
+    override fun provideEmpty(row: Int, column: Int): MidiGridItem {
+        return emptyGridItem(gridLayout, row, column, {
+            requestAddGridItem(row, column)
+        })
+    }
+
+    override fun clear() {
+        gridLayout.removeAllViews()
+        editableChildes.clear()
+    }
+
+    override fun add(item: MidiGridItem) {
+        val builder = bindItemToLayout(gridLayout, item)
+        (builder as? Editable)?.let { editableChildes += it }
+    }
+
+    override val editableChildes: MutableList<Editable> = ArrayList()
+
+    override fun parentChange(state: EditableState) {
+        //todo show - hide FAB
     }
 
     companion object {
