@@ -11,7 +11,10 @@ import ru.xmn.common.extensions.gone
 import ru.xmn.common.extensions.inflate
 import ru.xmn.common.extensions.visible
 
-class DeletableViewBuilder(val viewBuilder: ViewBuilder, val deleteClicked: () -> Unit) : ViewBuilder, EditableParent {
+class DeletableViewBuilder(
+        private val viewBuilder: ViewBuilder,
+        private val deleteClicked: () -> Unit
+) : ViewBuilder, EditableParent {
 
     var deleteButton: View? = null
 

@@ -1,4 +1,4 @@
-package circuit.ru.xmn.circuit.model.gridscreen
+package circuit.ru.xmn.circuit.model.layoutbuilder.gridscreen
 
 import circuit.ru.xmn.circuit.model.layoutbuilder.ViewBuilder
 
@@ -10,12 +10,7 @@ class GridMatrix(val callback: Callback) {
         renderMatrix()
     }
 
-    fun addGridItem(rowString: String, columnString: String, widthString: String, heightString: String, builder: ViewBuilder) {
-        val row = rowString.toInt()
-        val column = columnString.toInt()
-        val width = widthString.toInt()
-        val height = heightString.toInt()
-        val item = MidiGridItem(GridPositionInfo(row, column, width, height), builder)
+    fun addGridItem(item: MidiGridItem) {
         when {
             !matrixWrapper.isInBounds(item) -> {
                 val items = matrixWrapper.getItems().filter { it !is EmptyGridItem }

@@ -17,10 +17,6 @@ class MidiHandler(
     var sendMessage: ((ByteArray) -> Unit)? = null
     var currentValue = defaultValue
 
-    init {
-        log("init")
-    }
-
     private val changeListeners = WeakHashMap<(Int) -> Unit, Any>()
     private val VALUE_KEY_FOR_WEAK_MAP = Any()
 

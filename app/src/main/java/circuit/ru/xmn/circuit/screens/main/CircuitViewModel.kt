@@ -4,7 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import circuit.ru.xmn.circuit.application.App
 import circuit.ru.xmn.circuit.midiservice.MidiReceiverPortProvider
-import circuit.ru.xmn.circuit.model.gridscreen.MidiControlProvider
+import circuit.ru.xmn.circuit.model.widgets.MidiControlProvider
 import circuit.ru.xmn.circuit.model.layoutbuilder.*
 import circuit.ru.xmn.circuit.model.presets.CircuitPresetProvider
 import circuit.ru.xmn.circuit.model.presets.CircuitSynthProvider

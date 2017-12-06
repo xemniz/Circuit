@@ -1,8 +1,7 @@
-package circuit.ru.xmn.circuit.model.gridscreen
+package circuit.ru.xmn.circuit.model.layoutbuilder.gridscreen
 
 import org.junit.Assert
 import org.junit.Test
-import org.junit.runners.JUnit4
 
 /**
  * Created by USER on 14.11.2017.

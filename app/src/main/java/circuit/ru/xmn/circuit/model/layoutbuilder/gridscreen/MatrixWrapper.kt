@@ -1,4 +1,4 @@
-package circuit.ru.xmn.circuit.model.gridscreen
+package circuit.ru.xmn.circuit.model.layoutbuilder.gridscreen
 
 /**
  * Care about indexes
