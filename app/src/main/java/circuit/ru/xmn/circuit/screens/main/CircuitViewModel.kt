@@ -5,9 +5,12 @@ import android.arch.lifecycle.ViewModel
 import circuit.ru.xmn.circuit.application.App
 import circuit.ru.xmn.circuit.midiservice.MidiReceiverPortProvider
 import circuit.ru.xmn.circuit.model.widgets.MidiControlProvider
-import circuit.ru.xmn.circuit.model.layoutbuilder.*
+import circuit.ru.xmn.circuit.model.layoutbuilder.editable.EditState
+import circuit.ru.xmn.circuit.model.layoutbuilder.editable.EditableState
+import circuit.ru.xmn.circuit.model.layoutbuilder.editable.NormalState
 import circuit.ru.xmn.circuit.model.presets.CircuitPresetProvider
 import circuit.ru.xmn.circuit.model.presets.CircuitSynthProvider
+import circuit.ru.xmn.circuit.model.presets.PresetMidiController
 import circuit.ru.xmn.circuit.model.presets.PresetsRepository
 import javax.inject.Inject
 

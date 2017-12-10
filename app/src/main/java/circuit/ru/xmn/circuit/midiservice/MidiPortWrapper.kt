@@ -4,7 +4,7 @@ import android.media.midi.MidiDeviceInfo
 
 class MidiPortWrapper
 /**
- * Wrapper for a MIDI device and port description.
+ * AddButtonWrapper for a MIDI device and port description.
  * @param info
  * @param portType
  * @param portIndex

@@ -1,4 +1,4 @@
-package circuit.ru.xmn.circuit.model.layoutbuilder.adddialog
+package circuit.ru.xmn.circuit.model.layoutbuilder.dialog
 
 import android.app.Activity
 import android.view.ViewManager
@@ -93,9 +93,8 @@ interface DialogCustomParams<T> {
     fun get(builder: ViewBuilder): T
 }
 
-class GridDialogBinder(
-                       val rowNumber: Int,
-                       val columnNumber: Int) : DialogCustomParams<MidiGridItem> {
+class GridDialogBinder(private val rowNumber: Int,
+                       private val columnNumber: Int) : DialogCustomParams<MidiGridItem> {
     lateinit var row: EditText
     lateinit var column: EditText
     lateinit var width: EditText

@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import circuit.ru.xmn.circuit.R
-import circuit.ru.xmn.circuit.model.layoutbuilder.PresetMidiController
+import circuit.ru.xmn.circuit.model.presets.PresetMidiController
 import circuit.ru.xmn.circuit.model.presets.PresetsRepository
 import circuit.ru.xmn.circuit.screens.main.MainActivity
 import kotlinx.android.synthetic.main.activity_simple_list.*

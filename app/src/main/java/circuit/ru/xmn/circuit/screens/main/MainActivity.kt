@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.FrameLayout
 import circuit.ru.xmn.circuit.R
-import circuit.ru.xmn.circuit.model.layoutbuilder.Editable
+import circuit.ru.xmn.circuit.model.layoutbuilder.editable.Editable
 import circuit.ru.xmn.circuit.model.layoutbuilder.ViewBuilder
 import circuit.ru.xmn.circuit.screens.presets.LoadPresetsActivity
 import circuit.ru.xmn.circuit.screens.settings.MidiSettingsActivity
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             val saveCurrent = "Save current"
             val saveCurrentAs = "Save current as"
             val countries = listOf(editSynths, loadPreset, saveCurrent, saveCurrentAs)
-            selector("Where are you from?", countries, { _, i ->
+            selector("", countries, { _, i ->
                 when (countries[i]) {
                     editSynths -> {
                         startActivity<EditSynthsActivity>()

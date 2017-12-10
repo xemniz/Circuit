@@ -1,4 +1,4 @@
-package circuit.ru.xmn.circuit.model.layoutbuilder
+package circuit.ru.xmn.circuit.model.layoutbuilder.common
 
 import android.content.Context
 import android.view.Gravity
@@ -6,6 +6,8 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import circuit.ru.xmn.circuit.R
+import circuit.ru.xmn.circuit.model.layoutbuilder.ViewBuilder
+import circuit.ru.xmn.circuit.model.layoutbuilder.editable.*
 import ru.xmn.common.extensions.dpToPx
 import ru.xmn.common.extensions.gone
 import ru.xmn.common.extensions.inflate
@@ -14,9 +16,26 @@ import ru.xmn.common.extensions.visible
 class DeletableViewBuilder(
         private val viewBuilder: ViewBuilder,
         private val deleteClicked: () -> Unit
-) : ViewBuilder, EditableParent {
+) : ViewBuilder, EditableParent by CommonEditableParent() {
+    override var currentState: EditableState = NormalState
 
     var deleteButton: View? = null
+
+    init {
+        (viewBuilder as? Editable)?.let { addEditableChild(it) }
+        addEditableChild(object : CommonEditable() {
+            override fun internalChange(state: EditableState) {
+                when (state) {
+                    is NormalState -> {
+                        deleteButton?.gone()
+                    }
+                    is EditState -> {
+                        deleteButton?.visible()
+                    }
+                }
+            }
+        })
+    }
 
     override fun build(context: Context): View {
         return FrameLayout(context).apply {
@@ -46,19 +65,4 @@ class DeletableViewBuilder(
         }
         (this as ImageButton).setImageResource(R.drawable.ic_close_black_24dp)
     }
-
-    override val editableChildes: List<Editable>
-        get() = if (viewBuilder is Editable) listOf(viewBuilder as Editable) else emptyList()
-
-    override fun parentChange(state: EditableState) {
-        when (state) {
-            is NormalState -> {
-                deleteButton?.gone()
-            }
-            is EditState -> {
-                deleteButton?.visible()
-            }
-        }
-    }
-
 }

@@ -1,8 +1,7 @@
 package circuit.ru.xmn.circuit.model.presets
 
 import circuit.ru.xmn.circuit.model.layoutbuilder.gridscreen.*
-import circuit.ru.xmn.circuit.model.layoutbuilder.MidiControllerBuilder
-import circuit.ru.xmn.circuit.model.layoutbuilder.PresetMidiController
+import circuit.ru.xmn.circuit.model.midicontrol.MidiControllerBuilder
 import circuit.ru.xmn.circuit.model.widgets.MidiWidget
 import circuit.ru.xmn.circuit.model.widgets.MidiControlProvider
 
