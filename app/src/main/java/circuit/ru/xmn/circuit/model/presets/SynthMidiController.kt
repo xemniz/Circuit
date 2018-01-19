@@ -1,8 +1,8 @@
 package circuit.ru.xmn.circuit.model.presets
 
-import circuit.ru.xmn.circuit.model.midicontrol.MidiHandler
+import circuit.ru.xmn.circuit.model.nodes.midihandler.midicontrol.MidiHandler
 
-class SynthMidiController(
+data class SynthMidiController(
         val name: String,
         val controls: List<MidiHandler>,
         val sendMessage: (ByteArray) -> Unit = {},
@@ -12,8 +12,8 @@ class SynthMidiController(
         return controls
                 .first { it.name == name }
                 .apply {
-                    byteBuffer = buffer
-                    sendMessage = this@SynthMidiController.sendMessage
+//                    byteBuffer = buffer
+//                    sendMessage = this@SynthMidiController.sendMessage
                 }
     }
 }

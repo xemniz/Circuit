@@ -30,17 +30,17 @@ class LoadPresetsActivity : AppCompatActivity() {
         presetsListViewModel.presetsLiveData.observe(this, Observer { showList(it!!) })
     }
 
-    private fun showList(list: List<PresetMidiController>) {
+    private fun showList(list: List<String>) {
         synthsRecyclerView.bindItems(list.map { PresetItem(it) })
     }
 
-    class PresetItem(val presetMidiController: PresetMidiController) : LastAdapter.Item() {
+    class PresetItem(val presetName: String) : LastAdapter.Item() {
         override fun bindOn(view: View) {
             view.apply {
-                text.text = presetMidiController.name
+                text.text = presetName
                 setOnClickListener {
                     context.apply {
-                        startActivity(intentFor<MainActivity>(MainActivity.PRESET_NAME to presetMidiController.name))
+                        startActivity(intentFor<MainActivity>(MainActivity.PRESET_NAME to presetName))
                     }
                 }
             }
@@ -49,14 +49,14 @@ class LoadPresetsActivity : AppCompatActivity() {
         override fun layoutId() = R.layout.item_simple
 
         override fun compare(anotherItemValue: Any): Boolean {
-            return (anotherItemValue as? PresetMidiController)?.name?.equals(presetMidiController.name) ?: false
+            return (anotherItemValue as? PresetMidiController)?.name?.equals(presetName) ?: false
         }
     }
 }
 
 class PresetsListViewModel : ViewModel() {
     lateinit var presetsRepository: PresetsRepository
-    val presetsLiveData: MutableLiveData<List<PresetMidiController>> = MutableLiveData()
+    val presetsLiveData: MutableLiveData<List<String>> = MutableLiveData()
 
     init {
         presetsRepository = PresetsRepository()

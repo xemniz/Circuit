@@ -1,5 +1,7 @@
 package circuit.ru.xmn.circuit.model.presets
 
-import circuit.ru.xmn.circuit.model.layoutbuilder.ViewBuilder
+import circuit.ru.xmn.circuit.model.nodes.Node
+import circuit.ru.xmn.circuit.model.serialization.NodeData
 
-class PresetMidiController(val name: String, val viewBuilder: ViewBuilder)
+data class PresetMidiController(val name: String, val node: Node)
+class PresetMidiControllerData(val name: String, val node: NodeData)

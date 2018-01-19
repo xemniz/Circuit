@@ -4,11 +4,10 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import circuit.ru.xmn.circuit.application.App
 import circuit.ru.xmn.circuit.midiservice.MidiReceiverPortProvider
-import circuit.ru.xmn.circuit.model.widgets.MidiControlProvider
-import circuit.ru.xmn.circuit.model.layoutbuilder.editable.EditState
-import circuit.ru.xmn.circuit.model.layoutbuilder.editable.EditableState
-import circuit.ru.xmn.circuit.model.layoutbuilder.editable.NormalState
-import circuit.ru.xmn.circuit.model.presets.CircuitPresetProvider
+import circuit.ru.xmn.circuit.model.nodes.midihandler.widgets.MidiInjector
+import circuit.ru.xmn.circuit.model.common.EditState
+import circuit.ru.xmn.circuit.model.common.EditableState
+import circuit.ru.xmn.circuit.model.common.NormalState
 import circuit.ru.xmn.circuit.model.presets.CircuitSynthProvider
 import circuit.ru.xmn.circuit.model.presets.PresetMidiController
 import circuit.ru.xmn.circuit.model.presets.PresetsRepository
@@ -23,7 +22,7 @@ class CircuitViewModel : ViewModel() {
     init {
         App.component.inject(this)
         val circuitSynth = CircuitSynthProvider.provideCircuitSynth { midiSend(it) }
-        val circuitPreset = CircuitPresetProvider.provide(MidiControlProvider(circuitSynth))
+        val circuitPreset = CircuitPresetProvider.provide(MidiInjector(circuitSynth))
         midiControllerPreset.value = circuitPreset
         editableState.value = NormalState
     }
@@ -41,6 +40,10 @@ class CircuitViewModel : ViewModel() {
             editableState.value = EditState
         else
             editableState.value = NormalState
+    }
+
+    fun save(toString: String, currentPreset: PresetMidiController) {
+        presetRepository.save(toString, currentPreset)
     }
 }
 

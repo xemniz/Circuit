@@ -1,11 +1,13 @@
 package circuit.ru.xmn.circuit.application
 
 import android.app.Application
+import android.content.Context
 
 class App : Application() {
 
     companion object {
         lateinit var component: ApplicationComponent
+        lateinit var CONTEXT: Context
     }
 
     override fun onCreate() {
@@ -17,5 +19,6 @@ class App : Application() {
         component = DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this))
                 .build()
+        CONTEXT = this
     }
 }

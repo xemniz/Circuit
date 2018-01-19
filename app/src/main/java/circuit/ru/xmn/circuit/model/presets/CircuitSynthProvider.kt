@@ -1,9 +1,9 @@
 package circuit.ru.xmn.circuit.model.presets
 
-import circuit.ru.xmn.circuit.model.midicontrol.MidiControlType
-import circuit.ru.xmn.circuit.model.midicontrol.MidiHandler
-import circuit.ru.xmn.circuit.model.midicontrol.NrpnValue
-import circuit.ru.xmn.circuit.model.midicontrol.Range
+import circuit.ru.xmn.circuit.model.nodes.midihandler.midicontrol.MidiControlType
+import circuit.ru.xmn.circuit.model.nodes.midihandler.midicontrol.MidiHandler
+import circuit.ru.xmn.circuit.model.nodes.midihandler.midicontrol.NrpnValue
+import circuit.ru.xmn.circuit.model.nodes.midihandler.midicontrol.Range
 
 object CircuitSynthProvider {
 
